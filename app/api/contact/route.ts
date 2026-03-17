@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server"
+import { Resend } from "resend"
+
+const resendApiKey = process.env.RESEND_API_KEY
+const contactEmail = process.env.CONTACT_EMAIL || "ingrrnn.correaj@gmail.com"
+const resendFromEmail = process.env.RESEND_FROM_EMAIL || "LIFKO SPA <onboarding@resend.dev>"
+
+const resend = resendApiKey ? new Resend(resendApiKey) : null
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     const { nombre, correo, asunto, mensaje } = body
 
-    // Validate required fields
     if (!nombre || !correo || !asunto || !mensaje) {
       return NextResponse.json(
         { error: "Todos los campos son requeridos" },
@@ -13,7 +19,14 @@ export async function POST(request: Request) {
       )
     }
 
-    // Email content
+    if (!resend) {
+      console.error("RESEND_API_KEY no configurada")
+      return NextResponse.json(
+        { error: "El servicio de correo no esta configurado" },
+        { status: 500 }
+      )
+    }
+
     const emailContent = `
 Nuevo mensaje de contacto desde LIFKO SPA
 
@@ -28,26 +41,13 @@ ${mensaje}
 Enviado desde el formulario de contacto de www.lifkospa.cl
     `.trim()
 
-    // In production, you would integrate with an email service like:
-    // - Resend
-    // - SendGrid
-    // - Nodemailer with SMTP
-    // For now, we'll log the email and return success
-    console.log("=== New Contact Form Submission ===")
-    console.log("To: ingrrnn.correaj@gmail.com")
-    console.log("Subject:", `Contacto Web: ${asunto}`)
-    console.log("Content:", emailContent)
-    console.log("===================================")
-
-    // TODO: Integrate with email service
-    // Example with Resend:
-    // const resend = new Resend(process.env.RESEND_API_KEY)
-    // await resend.emails.send({
-    //   from: 'LIFKO SPA <noreply@lifkospa.cl>',
-    //   to: 'ingrrnn.correaj@gmail.com',
-    //   subject: `Contacto Web: ${asunto}`,
-    //   text: emailContent,
-    // })
+    await resend.emails.send({
+      from: resendFromEmail,
+      to: contactEmail,
+      replyTo: correo,
+      subject: `Contacto Web: ${asunto}`,
+      text: emailContent,
+    })
 
     return NextResponse.json(
       { success: true, message: "Mensaje enviado correctamente" },

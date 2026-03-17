@@ -1,48 +1,48 @@
 import { Leaf, Droplets, FileCheck, TreePine, ClipboardList, Map, ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { ScrollLink } from "@/components/scroll-link"
 
 const services = [
   {
     icon: Leaf,
     title: "Uso de Suelo",
     description:
-      "Asesoría en cambios de uso de suelo, estudios de capacidad de uso y planificación territorial acorde a la normativa vigente.",
-    href: "#visitas-tecnicas",
+      "Asesoria en cambios de uso de suelo, estudios de capacidad de uso y planificacion territorial acorde a la normativa vigente.",
+    href: "#visitas-tecnicas" as const,
   },
   {
     icon: Droplets,
     title: "Calidad de Agua",
     description:
-      "Gestión de derechos de aprovechamiento de aguas, estudios hidrogeológicos y cumplimiento de normativa hídrica.",
-    href: "#visitas-tecnicas",
+      "Gestion de derechos de aprovechamiento de aguas, estudios hidrogeologicos y cumplimiento de normativa hidrica.",
+    href: "#visitas-tecnicas" as const,
   },
   {
     icon: FileCheck,
-    title: "Gestión DIA-EIA",
+    title: "Gestion DIA-EIA",
     description:
-      "Elaboración y tramitación de Declaraciones de Impacto Ambiental (DIA) y Estudios de Impacto Ambiental (EIA).",
-    href: "#visitas-tecnicas",
+      "Elaboracion y tramitacion de Declaraciones de Impacto Ambiental (DIA) y Estudios de Impacto Ambiental (EIA).",
+    href: "#visitas-tecnicas" as const,
   },
   {
     icon: TreePine,
-    title: "Proyectos de Restauración",
+    title: "Proyectos de Restauracion",
     description:
-      "Diseño e implementación de planes de restauración ecológica, recuperación de ecosistemas y biodiversidad.",
-    href: "#visitas-tecnicas",
+      "Diseno e implementacion de planes de restauracion ecologica, recuperacion de ecosistemas y biodiversidad.",
+    href: "#visitas-tecnicas" as const,
   },
   {
     icon: ClipboardList,
-    title: "Planes de Mitigación",
+    title: "Planes de Mitigacion",
     description:
-      "Elaboración de planes integrales de mitigación ambiental, monitoreo y seguimiento de compromisos ambientales.",
-    href: "#visitas-tecnicas",
+      "Elaboracion de planes integrales de mitigacion ambiental, monitoreo y seguimiento de compromisos ambientales.",
+    href: "#visitas-tecnicas" as const,
   },
   {
     icon: Map,
-    title: "Cartografía",
+    title: "Cartografia",
     description:
-      "Elaboración de mapas temáticos, análisis espacial con SIG, cartografía digital y levantamientos topográficos para proyectos ambientales.",
-    href: "#visitas-tecnicas",
+      "Elaboracion de mapas tematicos, analisis espacial con SIG, cartografia digital y levantamientos topograficos para proyectos ambientales.",
+    href: "#visitas-tecnicas" as const,
   },
 ]
 
@@ -50,7 +50,6 @@ export function ServicesSection() {
   return (
     <section id="servicios" className="py-24 lg:py-32 bg-secondary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-sm uppercase tracking-[0.2em] text-primary font-medium mb-4">
             Nuestros Servicios
@@ -59,12 +58,11 @@ export function ServicesSection() {
             Soluciones integrales para su proyecto ambiental
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Ofrecemos un portafolio completo de servicios de consultoría ambiental, 
-            adaptados a las necesidades específicas de cada proyecto y cliente.
+            Ofrecemos un portafolio completo de servicios de consultoria ambiental,
+            adaptados a las necesidades especificas de cada proyecto y cliente.
           </p>
         </div>
 
-        {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <div
@@ -80,13 +78,13 @@ export function ServicesSection() {
               <p className="text-muted-foreground leading-relaxed mb-6">
                 {service.description}
               </p>
-              <Link
+              <ScrollLink
                 href={service.href}
                 className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
               >
                 Solicitar servicio
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </ScrollLink>
             </div>
           ))}
         </div>

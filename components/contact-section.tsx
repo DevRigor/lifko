@@ -1,11 +1,29 @@
 "use client"
 
 import { useState } from "react"
-import { Send, Loader2, Mail, MapPin, Phone, Linkedin, User } from "lucide-react"
+import { Send, Loader2, Mail, Linkedin, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const inquiryTypes = [
+  { value: "uso-suelo", label: "Uso de Suelo" },
+  { value: "calidad-agua", label: "Calidad de Agua" },
+  { value: "gestion-dia-eia", label: "Gestion DIA-EIA" },
+  { value: "restauracion", label: "Proyecto de Restauracion" },
+  { value: "mitigacion", label: "Plan de Mitigacion" },
+  { value: "cartografia", label: "Cartografia" },
+  { value: "asesoria-online", label: "Asesoria Online" },
+  { value: "otro", label: "Otra Consulta" },
+]
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -22,6 +40,10 @@ export function ContactSection() {
   ) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleInquiryChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, asunto: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,7 +81,6 @@ export function ContactSection() {
   return (
     <section id="contacto" className="py-24 lg:py-32 bg-secondary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-sm uppercase tracking-[0.2em] text-primary font-medium mb-4">
             Contacto
@@ -68,15 +89,13 @@ export function ContactSection() {
             Conversemos sobre su proyecto
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Estamos aquí para ayudarle. Complete el formulario y nos pondremos en contacto 
-            con usted a la brevedad para discutir cómo podemos apoyar su proyecto ambiental.
+            Estamos aqui para ayudarle. Complete el formulario y nos pondremos en contacto
+            con usted a la brevedad para discutir como podemos apoyar su proyecto ambiental.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-          {/* Contact Info */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Professional Info Card */}
             <div className="bg-card border border-border rounded-lg p-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
@@ -84,9 +103,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Ingeniero en Recursos Naturales</h3>
-                  <p className="text-muted-foreground">
-                    Consultor Ambiental
-                  </p>
+                  <p className="text-muted-foreground">Consultor Ambiental</p>
                 </div>
               </div>
             </div>
@@ -97,24 +114,8 @@ export function ContactSection() {
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Correo Electrónico</h3>
-                  <p className="text-muted-foreground">
-                    ingrrnn.correaj@gmail.com
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-card border border-border rounded-lg p-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Teléfono</h3>
-                  <p className="text-muted-foreground">
-                    +56 9 XXXX XXXX
-                  </p>
+                  <h3 className="font-semibold text-foreground mb-1">Correo Electronico</h3>
+                  <p className="text-muted-foreground">ingrrnn.correaj@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -126,9 +127,9 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">LinkedIn</h3>
-                  <a 
-                    href="https://linkedin.com/in/" 
-                    target="_blank" 
+                  <a
+                    href="https://linkedin.com/in/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"
                   >
@@ -137,23 +138,8 @@ export function ContactSection() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-card border border-border rounded-lg p-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Ubicación</h3>
-                  <p className="text-muted-foreground">
-                    Chile
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Contact Form */}
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 lg:p-8">
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
@@ -169,7 +155,7 @@ export function ContactSection() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="contact-correo">Correo Electrónico</Label>
+                  <Label htmlFor="contact-correo">Correo Electronico</Label>
                   <Input
                     id="contact-correo"
                     name="correo"
@@ -183,15 +169,19 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-2 mb-4">
-                <Label htmlFor="contact-asunto">Asunto</Label>
-                <Input
-                  id="contact-asunto"
-                  name="asunto"
-                  value={formData.asunto}
-                  onChange={handleInputChange}
-                  placeholder="Asunto de su consulta"
-                  required
-                />
+                <Label htmlFor="contact-asunto">Tipo de Consulta</Label>
+                <Select value={formData.asunto} onValueChange={handleInquiryChange}>
+                  <SelectTrigger id="contact-asunto" className="w-full">
+                    <SelectValue placeholder="Seleccione el tipo de consulta" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {inquiryTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.label}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2 mb-6">

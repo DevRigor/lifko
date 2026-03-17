@@ -1,21 +1,21 @@
-import Link from "next/link"
 import { SpiralLogo } from "@/components/spiral-logo"
+import { ScrollLink } from "@/components/scroll-link"
 
 const navLinks = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#nosotros", label: "Nosotros" },
-  { href: "#servicios", label: "Servicios" },
-  { href: "#visitas-tecnicas", label: "Visitas Técnicas" },
-  { href: "#proyectos", label: "Proyectos" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "#inicio" as const, label: "Inicio" },
+  { href: "#nosotros" as const, label: "Nosotros" },
+  { href: "#servicios" as const, label: "Servicios" },
+  { href: "#visitas-tecnicas" as const, label: "Visitas Tecnicas" },
+  { href: "#proyectos" as const, label: "Proyectos" },
+  { href: "#contacto" as const, label: "Contacto" },
 ]
 
 const services = [
   "Uso de Suelo",
   "Calidad de Agua",
-  "Gestión DIA-EIA",
-  "Restauración Ambiental",
-  "Planes de Mitigación",
+  "Gestion DIA-EIA",
+  "Restauracion Ambiental",
+  "Planes de Mitigacion",
 ]
 
 export function Footer() {
@@ -23,58 +23,52 @@ export function Footer() {
     <footer className="bg-foreground text-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="#inicio" className="flex items-center gap-2 mb-4">
+            <ScrollLink href="#inicio" className="flex items-center gap-2 mb-4">
               <SpiralLogo className="w-10 h-10" />
               <span className="font-serif text-xl font-semibold tracking-tight">
                 LIFKO SPA
               </span>
-            </Link>
+            </ScrollLink>
             <p className="text-background/70 text-sm leading-relaxed">
-              Consultoría ambiental profesional comprometida con el desarrollo sustentable 
-              y la protección del medio ambiente en Chile.
+              Consultoria ambiental profesional comprometida con el desarrollo sustentable
+              y la proteccion del medio ambiente en Chile.
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
-            <h4 className="font-semibold text-background mb-4">Navegación</h4>
+            <h4 className="font-semibold text-background mb-4">Navegacion</h4>
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <ScrollLink
                     href={link.href}
                     className="text-background/70 hover:text-background text-sm transition-colors"
                   >
                     {link.label}
-                  </Link>
+                  </ScrollLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
           <div>
             <h4 className="font-semibold text-background mb-4">Servicios</h4>
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service}>
-                  <span className="text-background/70 text-sm">
-                    {service}
-                  </span>
+                  <span className="text-background/70 text-sm">{service}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4 className="font-semibold text-background mb-4">Contacto</h4>
             <ul className="space-y-2 text-sm text-background/70">
               <li>
-                <a 
-                  href="mailto:ingrrnn.correaj@gmail.com" 
+                <a
+                  href="mailto:ingrrnn.correaj@gmail.com"
                   className="hover:text-background transition-colors"
                 >
                   ingrrnn.correaj@gmail.com
@@ -85,19 +79,14 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-background/10 mt-12 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
               © {new Date().getFullYear()} LIFKO SPA. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-6 text-sm text-background/50">
-              <Link href="#" className="hover:text-background transition-colors">
-                Política de Privacidad
-              </Link>
-              <Link href="#" className="hover:text-background transition-colors">
-                Términos de Servicio
-              </Link>
+              <span>Politica de Privacidad</span>
+              <span>Terminos de Servicio</span>
             </div>
           </div>
         </div>

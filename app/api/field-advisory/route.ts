@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { Resend } from "resend"
 
 const requestTypeLabels: Record<string, string> = {
   "uso-suelo": "Uso de Suelo",
@@ -9,6 +10,12 @@ const requestTypeLabels: Record<string, string> = {
   "otro": "Otro",
 }
 
+const resendApiKey = process.env.RESEND_API_KEY
+const contactEmail = process.env.CONTACT_EMAIL || "ingrrnn.correaj@gmail.com"
+const resendFromEmail = process.env.RESEND_FROM_EMAIL || "LIFKO SPA <onboarding@resend.dev>"
+
+const resend = resendApiKey ? new Resend(resendApiKey) : null
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -18,6 +25,14 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Todos los campos son requeridos" },
         { status: 400 }
+      )
+    }
+
+    if (!resend) {
+      console.error("RESEND_API_KEY no configurada")
+      return NextResponse.json(
+        { error: "El servicio de correo no esta configurado" },
+        { status: 500 }
       )
     }
 
@@ -52,11 +67,13 @@ Ver en OpenStreetMap: ${openStreetMapUrl}`
 Enviado desde el formulario de asesoria en terreno de www.lifkospa.cl
     `.trim()
 
-    console.log("=== New Field Advisory Request ===")
-    console.log("To: ingrrnn.correaj@gmail.com")
-    console.log("Subject:", `Solicitud de Asesoria en Terreno: ${tipoLabel}`)
-    console.log("Content:", emailContent)
-    console.log("==================================")
+    await resend.emails.send({
+      from: resendFromEmail,
+      to: contactEmail,
+      replyTo: correo,
+      subject: `Solicitud de Asesoria en Terreno: ${tipoLabel}`,
+      text: emailContent,
+    })
 
     return NextResponse.json(
       { success: true, message: "Solicitud enviada correctamente" },

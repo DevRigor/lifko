@@ -1,28 +1,29 @@
+"use client"
+
 import Image from "next/image"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FileText, CheckSquare, ArrowRight, Shield, Clock, Users } from "lucide-react"
 
 const processSteps = [
   {
     number: "01",
-    title: "Análisis Inicial",
-    description: "Evaluamos su proyecto para determinar si requiere DIA o EIA según la normativa vigente.",
+    title: "Analisis Inicial",
+    description: "Evaluamos su proyecto para determinar si requiere DIA o EIA segun la normativa vigente.",
   },
   {
     number: "02",
-    title: "Elaboración Técnica",
-    description: "Desarrollamos toda la documentación técnica requerida por el SEIA.",
+    title: "Elaboracion Tecnica",
+    description: "Desarrollamos toda la documentacion tecnica requerida por el SEIA.",
   },
   {
     number: "03",
-    title: "Tramitación",
-    description: "Gestionamos el proceso de evaluación ante los organismos competentes.",
+    title: "Tramitacion",
+    description: "Gestionamos el proceso de evaluacion ante los organismos competentes.",
   },
   {
     number: "04",
     title: "Seguimiento",
-    description: "Acompañamiento en las respuestas a observaciones y hasta la aprobación final.",
+    description: "Acompanamiento en las respuestas a observaciones y hasta la aprobacion final.",
   },
 ]
 
@@ -34,8 +35,8 @@ const benefits = [
   },
   {
     icon: Clock,
-    title: "Optimización de Tiempos",
-    description: "Experiencia que reduce los plazos de tramitación.",
+    title: "Optimizacion de Tiempos",
+    description: "Experiencia que reduce los plazos de tramitacion.",
   },
   {
     icon: Users,
@@ -45,50 +46,59 @@ const benefits = [
 ]
 
 export function ProjectManagementSection() {
+  const scrollToVisits = () => {
+    const section = document.querySelector("#visitas-tecnicas")
+    if (!(section instanceof HTMLElement)) return
+
+    const headerOffset = 96
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY - headerOffset
+
+    window.history.replaceState(null, "", "#visitas-tecnicas")
+    window.scrollTo({
+      top: sectionTop,
+      behavior: "smooth",
+    })
+  }
+
   return (
     <section id="proyectos" className="py-24 lg:py-32 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-primary font-medium mb-4">
-              Gestión de Proyectos
+              Gestion de Proyectos
             </p>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-6 text-balance">
               Declaraciones y Estudios de Impacto Ambiental
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              La gestión de proyectos ante el Sistema de Evaluación de Impacto Ambiental (SEIA) 
-              es uno de nuestros servicios principales. Contamos con la experiencia y el conocimiento 
-              técnico para guiar su proyecto desde la concepción hasta la aprobación.
+              La gestion de proyectos ante el Sistema de Evaluacion de Impacto Ambiental (SEIA)
+              es uno de nuestros servicios principales. Contamos con la experiencia y el conocimiento
+              tecnico para guiar su proyecto desde la concepcion hasta la aprobacion.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Ya sea que su proyecto requiera una <strong>Declaración de Impacto Ambiental (DIA)</strong> o 
-              un <strong>Estudio de Impacto Ambiental (EIA)</strong>, nuestro equipo le acompañará 
-              en cada etapa del proceso, asegurando el cumplimiento normativo y optimizando los tiempos de tramitación.
+              Ya sea que su proyecto requiera una <strong>Declaracion de Impacto Ambiental (DIA)</strong> o
+              un <strong>Estudio de Impacto Ambiental (EIA)</strong>, nuestro equipo le acompanara
+              en cada etapa del proceso, asegurando el cumplimiento normativo y optimizando los tiempos de tramitacion.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
-                asChild
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                onClick={scrollToVisits}
               >
-                <Link href="#visitas-tecnicas" className="flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  Consultar por DIA
-                </Link>
+                <FileText className="w-4 h-4" />
+                Consultar por DIA
               </Button>
               <Button
-                asChild
                 variant="outline"
                 size="lg"
                 className="border-primary text-primary hover:bg-primary/10"
+                onClick={scrollToVisits}
               >
-                <Link href="#visitas-tecnicas" className="flex items-center gap-2">
-                  <CheckSquare className="w-4 h-4" />
-                  Consultar por EIA
-                </Link>
+                <CheckSquare className="w-4 h-4" />
+                Consultar por EIA
               </Button>
             </div>
           </div>
@@ -106,7 +116,6 @@ export function ProjectManagementSection() {
           </div>
         </div>
 
-        {/* Process Steps */}
         <div className="mb-20">
           <h3 className="font-serif text-2xl font-semibold text-foreground text-center mb-12">
             Nuestro Proceso de Trabajo
@@ -136,10 +145,9 @@ export function ProjectManagementSection() {
           </div>
         </div>
 
-        {/* Benefits */}
         <div className="bg-primary/5 rounded-2xl p-8 lg:p-12">
           <h3 className="font-serif text-2xl font-semibold text-foreground text-center mb-8">
-            Por qué elegirnos para su proyecto
+            Por que elegirnos para su proyecto
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
