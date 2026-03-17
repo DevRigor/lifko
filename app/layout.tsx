@@ -1,25 +1,13 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Source_Sans_3 } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const sourceSans = Source_Sans_3({ 
-  subsets: ["latin"],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: 'LIFKO SPA | Consultoría Ambiental',
-  description: 'Consultoría ambiental profesional. Especialistas en uso de suelo, uso de agua, gestión de proyectos DIA-EIA, restauración y planes de mitigación.',
-  keywords: ['consultoría ambiental', 'uso de suelo', 'uso de agua', 'DIA', 'EIA', 'restauración ambiental', 'Chile'],
+  title: 'LIFKO SPA | Consultoria Ambiental',
+  description:
+    'Consultoria ambiental profesional. Especialistas en uso de suelo, calidad de agua, gestion de proyectos DIA-EIA, restauracion y planes de mitigacion.',
+  keywords: ['consultoria ambiental', 'uso de suelo', 'calidad de agua', 'DIA', 'EIA', 'restauracion ambiental', 'Chile'],
   icons: {
     icon: [
       {
@@ -45,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${playfair.variable} ${sourceSans.variable}`} suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"

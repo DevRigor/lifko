@@ -2,10 +2,10 @@ import { NextResponse } from "next/server"
 
 const requestTypeLabels: Record<string, string> = {
   "uso-suelo": "Uso de Suelo",
-  "uso-agua": "Uso de Agua",
-  "dia-eia": "Gestión DIA-EIA",
-  "restauracion": "Proyecto de Restauración",
-  "mitigacion": "Plan de Mitigación",
+  "calidad-agua": "Calidad de Agua",
+  "dia-eia": "Gestion DIA-EIA",
+  "restauracion": "Proyecto de Restauracion",
+  "mitigacion": "Plan de Mitigacion",
   "otro": "Otro",
 }
 
@@ -14,7 +14,6 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { nombre, apellido, correo, telefono, tipoSolicitud, latitud, longitud } = body
 
-    // Validate required fields
     if (!nombre || !apellido || !correo || !telefono || !tipoSolicitud) {
       return NextResponse.json(
         { error: "Todos los campos son requeridos" },
@@ -23,45 +22,41 @@ export async function POST(request: Request) {
     }
 
     const tipoLabel = requestTypeLabels[tipoSolicitud] || tipoSolicitud
+    const hasCoordinates = Boolean(latitud && longitud)
+    const googleMapsUrl = hasCoordinates
+      ? `https://www.google.com/maps?q=${latitud},${longitud}`
+      : null
+    const openStreetMapUrl = hasCoordinates
+      ? `https://www.openstreetmap.org/?mlat=${latitud}&mlon=${longitud}#map=16/${latitud}/${longitud}`
+      : null
 
-    // Email content
     const emailContent = `
-Nueva solicitud de asesoría en terreno - LIFKO SPA
+Nueva solicitud de asesoria en terreno - LIFKO SPA
 
 DATOS DEL SOLICITANTE:
 Nombre: ${nombre} ${apellido}
 Correo: ${correo}
-Teléfono: ${telefono}
+Telefono: ${telefono}
 
 TIPO DE SOLICITUD:
 ${tipoLabel}
 
-UBICACIÓN DEL TERRENO:
-${latitud && longitud 
+UBICACION DEL TERRENO:
+${hasCoordinates
   ? `Coordenadas: ${latitud}, ${longitud}
-Ver en Google Maps: https://www.google.com/maps?q=${latitud},${longitud}`
+Ver en Google Maps: ${googleMapsUrl}
+Ver en OpenStreetMap: ${openStreetMapUrl}`
   : "No se especificaron coordenadas"}
 
 ---
-Enviado desde el formulario de asesoría en terreno de www.lifkospa.cl
+Enviado desde el formulario de asesoria en terreno de www.lifkospa.cl
     `.trim()
 
-    // In production, integrate with an email service
     console.log("=== New Field Advisory Request ===")
     console.log("To: ingrrnn.correaj@gmail.com")
-    console.log("Subject:", `Solicitud de Asesoría en Terreno: ${tipoLabel}`)
+    console.log("Subject:", `Solicitud de Asesoria en Terreno: ${tipoLabel}`)
     console.log("Content:", emailContent)
     console.log("==================================")
-
-    // TODO: Integrate with email service
-    // Example with Resend:
-    // const resend = new Resend(process.env.RESEND_API_KEY)
-    // await resend.emails.send({
-    //   from: 'LIFKO SPA <noreply@lifkospa.cl>',
-    //   to: 'ingrrnn.correaj@gmail.com',
-    //   subject: `Solicitud de Asesoría en Terreno: ${tipoLabel}`,
-    //   text: emailContent,
-    // })
 
     return NextResponse.json(
       { success: true, message: "Solicitud enviada correctamente" },

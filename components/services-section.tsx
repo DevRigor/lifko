@@ -11,7 +11,7 @@ const services = [
   },
   {
     icon: Droplets,
-    title: "Uso de Agua",
+    title: "Calidad de Agua",
     description:
       "Gestión de derechos de aprovechamiento de aguas, estudios hidrogeológicos y cumplimiento de normativa hídrica.",
     href: "#visitas-tecnicas",

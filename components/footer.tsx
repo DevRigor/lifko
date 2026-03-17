@@ -12,7 +12,7 @@ const navLinks = [
 
 const services = [
   "Uso de Suelo",
-  "Uso de Agua",
+  "Calidad de Agua",
   "Gestión DIA-EIA",
   "Restauración Ambiental",
   "Planes de Mitigación",
