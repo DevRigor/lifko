@@ -128,7 +128,7 @@ export function ContactSection() {
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">LinkedIn</h3>
                   <a
-                    href="https://linkedin.com/in/"
+                    href="https://www.linkedin.com/in/javiera-c-correa-a-65a231349/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"
