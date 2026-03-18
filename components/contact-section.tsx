@@ -184,7 +184,7 @@ export function ContactSection() {
                   Certificados e investigaciones
                 </h3>
                 <p className="text-muted-foreground mt-2 max-w-2xl">
-                  Carrusel de documentos con foco en la lamina principal para mejorar lectura y jerarquia visual.
+                  Aqui podras conocer parte de la experiencia, formacion y respaldo profesional que sustentan cada servicio.
                 </p>
               </div>
 
