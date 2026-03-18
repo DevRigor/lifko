@@ -5,8 +5,8 @@ La web no es un sistema transaccional. Es una plataforma de presentacion y capta
 
 ## Conversion principal
 Las acciones mas importantes son:
-- enviar formulario de contacto
 - enviar formulario de asesoria en terreno
+- navegar por informacion personal y revisar respaldo visual
 
 ## Regla funcional de formularios
 - si faltan campos requeridos, la API responde 400

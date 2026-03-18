@@ -8,7 +8,7 @@ export function HeroSection() {
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero-river.jpg"
+          src="/images/FONDO.PNG"
           alt="Rio chileno en naturaleza pristina"
           fill
           className="object-cover"
@@ -20,7 +20,7 @@ export function HeroSection() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 text-center">
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base uppercase tracking-[0.2em] text-white/80 mb-6 font-medium">
-            Consultoria Ambiental Profesional
+            Analisis de Calidad de Agua
           </p>
 
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight mb-8 text-balance">
@@ -28,9 +28,9 @@ export function HeroSection() {
           </h1>
 
           <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto mb-12 leading-relaxed text-pretty">
-            En LIFKO SPA acompanamos a empresas y organizaciones en el desarrollo de proyectos
-            sustentables, ofreciendo asesoria tecnica especializada en normativa ambiental,
-            uso de suelo, gestion de aguas y evaluacion de impacto ambiental.
+            En LIFKO SpA buscamos mejorar la calidad de vida de los ecosistemas dulceacuicolas.
+            Asesoramos a empresas y organizaciones que necesitan conocer el estado de la calidad
+            del agua para su uso o consumo.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

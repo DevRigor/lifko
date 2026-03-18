@@ -13,5 +13,5 @@ Esta carpeta concentra contexto operativo del proyecto para asistentes, agentes 
 ## Uso recomendado
 - revisar `architecture/project-structure.md` para una vista general tecnica
 - revisar `modules/*.md` para trabajar una seccion especifica
-- revisar `business/*.md` antes de cambiar formularios, mensajes o servicios
+- revisar `business/*.md` antes de cambiar servicios, mensajes o flujos de captura
 - revisar `design/*.md` antes de tocar tema, componentes o navegacion

@@ -9,11 +9,10 @@ import { ScrollLink } from "@/components/scroll-link"
 
 const navLinks = [
   { href: "#inicio" as const, label: "Inicio" },
-  { href: "#nosotros" as const, label: "Nosotros" },
+  { href: "#nosotros" as const, label: "ODS" },
   { href: "#servicios" as const, label: "Servicios" },
   { href: "#visitas-tecnicas" as const, label: "Visitas Tecnicas" },
-  { href: "#proyectos" as const, label: "Proyectos" },
-  { href: "#contacto" as const, label: "Contacto" },
+  { href: "#contacto" as const, label: "Informacion Personal" },
 ]
 
 export function Navigation() {

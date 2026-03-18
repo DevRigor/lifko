@@ -3,19 +3,19 @@ import { ScrollLink } from "@/components/scroll-link"
 
 const navLinks = [
   { href: "#inicio" as const, label: "Inicio" },
-  { href: "#nosotros" as const, label: "Nosotros" },
+  { href: "#nosotros" as const, label: "ODS" },
   { href: "#servicios" as const, label: "Servicios" },
   { href: "#visitas-tecnicas" as const, label: "Visitas Tecnicas" },
-  { href: "#proyectos" as const, label: "Proyectos" },
-  { href: "#contacto" as const, label: "Contacto" },
+  { href: "#contacto" as const, label: "Informacion Personal" },
 ]
 
 const services = [
-  "Uso de Suelo",
-  "Calidad de Agua",
-  "Gestion DIA-EIA",
-  "Restauracion Ambiental",
+  "Informes tecnicos",
+  "Gestion de proyectos",
+  "Cartografia hidro-geo-sociologica",
+  "Monitoreo biofisicoquimico",
   "Planes de Mitigacion",
+  "Capacitaciones y educacion",
 ]
 
 export function Footer() {
@@ -31,8 +31,8 @@ export function Footer() {
               </span>
             </ScrollLink>
             <p className="text-background/70 text-sm leading-relaxed">
-              Consultoria ambiental profesional comprometida con el desarrollo sustentable
-              y la proteccion del medio ambiente en Chile.
+              SERVICIOS PROFESIONALES DE INGENIERIA Y ACTIVIDADES CONEXAS DE
+              CONSULTORIA TECNICA 711003-SSI.
             </p>
           </div>
 
@@ -64,7 +64,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-background mb-4">Contacto</h4>
+            <h4 className="font-semibold text-background mb-4">Informacion</h4>
             <ul className="space-y-2 text-sm text-background/70">
               <li>
                 <a

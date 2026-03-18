@@ -1,28 +1,28 @@
 "use client"
 
-import { Video, BookOpen, Clock, MessageCircle, ArrowRight } from "lucide-react"
+import { Video, BookOpen, Languages, MessageCircle, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const features = [
   {
     icon: Video,
-    title: "Orientacion Tecnica Remota",
-    description: "Sesiones de asesoria online para resolver dudas tecnicas y orientar su proyecto ambiental.",
+    title: "Orientacion tecnica remota",
+    description: "Sesiones online para orientar proyectos medioambientales desde cualquier lugar.",
   },
   {
     icon: MessageCircle,
-    title: "Acompanamiento Profesional",
-    description: "Apoyo continuo durante todo el proceso de evaluacion y tramitacion ambiental.",
+    title: "Acompanamiento profesional",
+    description: "Apoyo remoto para resolver consultas y ordenar decisiones tecnicas del proyecto.",
   },
   {
-    icon: Clock,
-    title: "Flexibilidad Horaria",
-    description: "Adaptamos nuestros horarios a su disponibilidad para facilitar la comunicacion.",
+    icon: Languages,
+    title: "Enfoque trilingue",
+    description: "Trabajo en espanol e ingles, fortaleciendo tambien el Mapudungun en contextos rurales.",
   },
   {
     icon: BookOpen,
-    title: "Contenidos Especializados",
-    description: "Acceso a material tecnico y guias para entender mejor la normativa ambiental.",
+    title: "Cursos e infografias",
+    description: "Proximamente se compartiran cursos grabados e infografias trilingues sobre ecologia y economia.",
   },
 ]
 
@@ -53,13 +53,13 @@ export function OnlineAdvisorySection() {
               Orientacion profesional desde cualquier lugar
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Ofrecemos asesorias remotas para acompanar su proyecto ambiental sin importar
-              su ubicacion geografica. Nuestro equipo de expertos esta disponible para brindarle
-              orientacion tecnica, resolver consultas y guiarlo en cada etapa del proceso.
+              Ofrecemos asesorias remotas para orientar proyectos medioambientales, sin importar
+              su ubicacion geografica. Nuestro equipo contempla el uso de idiomas como espanol
+              e ingles, fortaleciendo Mapudungun como lengua nativa del sur de Chile.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Proximamente estaremos incorporando cursos y contenidos grabados para que pueda
-              capacitarse en temas de normativa ambiental a su propio ritmo.
+              Proximamente se compartiran cursos grabados e infografias trilingues que explican
+              procesos complejos de ecologia y economia, junto con soluciones frente al dano ambiental.
             </p>
 
             <Button

@@ -1,10 +1,9 @@
 # Email and Forms Integration
 
 ## Integracion principal
-Resend se usa para enviar correos desde ambos formularios.
+Resend se usa para enviar correos desde el formulario de asesoria en terreno.
 
 ## Endpoints
-- `app/api/contact/route.ts`
 - `app/api/field-advisory/route.ts`
 
 ## Campos importantes

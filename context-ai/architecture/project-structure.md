@@ -1,7 +1,7 @@
 # Project Structure
 
 ## Arquitectura general
-La aplicacion es una landing de una sola pagina construida sobre Next.js App Router. La pagina principal compone secciones independientes y dos endpoints API para formularios.
+La aplicacion es una landing de una sola pagina construida sobre Next.js App Router. La pagina principal compone secciones independientes y un endpoint API para el formulario de asesoria en terreno.
 
 ## Entrada principal
 - `app/page.tsx`: compone toda la landing
@@ -14,7 +14,6 @@ La aplicacion es una landing de una sola pagina construida sobre Next.js App Rou
 - `components/services-section.tsx`
 - `components/online-advisory-section.tsx`
 - `components/field-advisory-section.tsx`
-- `components/project-management-section.tsx`
 - `components/contact-section.tsx`
 - `components/footer.tsx`
 
@@ -25,7 +24,6 @@ La aplicacion es una landing de una sola pagina construida sobre Next.js App Rou
 - `lib/utils.ts`: helper `cn`
 
 ## Endpoints
-- `app/api/contact/route.ts`
 - `app/api/field-advisory/route.ts`
 
 ## Dependencias funcionales

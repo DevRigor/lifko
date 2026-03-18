@@ -1,12 +1,12 @@
 # Service Catalog
 
 ## Servicios nucleares
-- Uso de Suelo
-- Calidad de Agua
-- Gestion DIA-EIA
-- Restauracion Ambiental
+- Informes tecnicos
+- Gestion de proyectos
+- Cartografia hidro-geo-sociologica
+- Monitoreo de parametros biofisicoquimicos
 - Planes de Mitigacion
-- Cartografia
+- Capacitaciones y educacion
 
 ## Servicios derivados
 - asesorias online

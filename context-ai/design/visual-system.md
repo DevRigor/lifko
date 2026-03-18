@@ -1,15 +1,16 @@
 # Visual System
 
 ## Direccion visual
-La marca mezcla una estetica agua/bosque.
+La marca mezcla una estetica agua/bosque con foco en analisis de calidad de agua y paisaje territorial.
 
 ## Paleta
 - modo claro: azules y celestes
 - modo oscuro: verdes bosque y tonos tierra/oliva
 
 ## Iconografia de marca
-- logo espiral LIFKO
-- favicons propios en `public/`
+- logo principal en `public/Logo.svg`
+- favicon y logo de navegacion reutilizan el mismo asset SVG
+- `components/spiral-logo.tsx` conserva el nombre historico pero renderiza la marca actual
 
 ## Tipografia
 Actualmente usa fuentes del sistema:

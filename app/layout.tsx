@@ -4,26 +4,18 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'LIFKO SPA | Consultoria Ambiental',
+  title: 'LIFKO SPA | Analisis de Calidad de Agua',
   description:
-    'Consultoria ambiental profesional. Especialistas en uso de suelo, calidad de agua, gestion de proyectos DIA-EIA, restauracion y planes de mitigacion.',
-  keywords: ['consultoria ambiental', 'uso de suelo', 'calidad de agua', 'DIA', 'EIA', 'restauracion ambiental', 'Chile'],
+    'Analisis de calidad de agua, monitoreo biofisicoquimico, cartografia hidro-geo-sociologica y asesoria ambiental para proyectos en Chile.',
+  keywords: ['calidad de agua', 'monitoreo ambiental', 'cartografia', 'mitigacion ambiental', 'asesoria ambiental', 'Chile'],
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
+        url: '/Logo.svg',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/Logo.svg',
   },
 }
 

@@ -2,29 +2,17 @@
 
 ## Archivos principales
 - `components/contact-section.tsx`
-- `app/api/contact/route.ts`
 
 ## Rol
-Captura consultas generales del usuario.
+Presenta informacion personal, datos directos de contacto, licencia clase B y respaldo visual con certificados.
 
-## Datos capturados
-- nombre
+## Bloques visibles
+- fotografia editorial de perfil
+- especialidad
 - correo
-- asunto
-- mensaje
+- LinkedIn
+- licencia clase B
+- carrusel de certificados e investigaciones
 
 ## UX actual
-El campo `asunto` ya no es libre: se selecciona desde un dropdown de tipos de consulta.
-
-## Tipos de consulta
-- Uso de Suelo
-- Calidad de Agua
-- Gestion DIA-EIA
-- Proyecto de Restauracion
-- Plan de Mitigacion
-- Cartografia
-- Asesoria Online
-- Otra Consulta
-
-## Salida
-La API envia un correo por Resend al correo configurado en `CONTACT_EMAIL`.
+La seccion no captura formularios. Su objetivo es reforzar confianza y dar contexto profesional mientras el CTA principal del sitio sigue orientado a `#visitas-tecnicas`.

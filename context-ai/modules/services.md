@@ -7,12 +7,12 @@
 Lista el portafolio principal de servicios ambientales y conecta cada servicio con una accion comercial.
 
 ## Servicios visibles
-- Uso de Suelo
-- Calidad de Agua
-- Gestion DIA-EIA
-- Proyectos de Restauracion
+- Informes tecnicos
+- Gestion de proyectos
+- Cartografia hidro-geo-sociologica
+- Monitoreo de parametros biofisicoquimicos
 - Planes de Mitigacion
-- Cartografia
+- Capacitaciones y educacion
 
 ## Comportamiento
 Cada tarjeta lleva a `#visitas-tecnicas` mediante `ScrollLink`.

@@ -1,47 +1,47 @@
-import { Leaf, Droplets, FileCheck, TreePine, ClipboardList, Map, ArrowRight } from "lucide-react"
+import { FileText, BriefcaseBusiness, Map, Waves, ShieldCheck, GraduationCap, ArrowRight } from "lucide-react"
 import { ScrollLink } from "@/components/scroll-link"
 
 const services = [
   {
-    icon: Leaf,
-    title: "Uso de Suelo",
+    icon: FileText,
+    title: "Informes tecnicos",
     description:
-      "Asesoria en cambios de uso de suelo, estudios de capacidad de uso y planificacion territorial acorde a la normativa vigente.",
+      "Normativa ambiental vigente que regula estandares de los parametros bajo estudio.",
     href: "#visitas-tecnicas" as const,
   },
   {
-    icon: Droplets,
-    title: "Calidad de Agua",
+    icon: BriefcaseBusiness,
+    title: "Gestion de proyectos",
     description:
-      "Gestion de derechos de aprovechamiento de aguas, estudios hidrogeologicos y cumplimiento de normativa hidrica.",
-    href: "#visitas-tecnicas" as const,
-  },
-  {
-    icon: FileCheck,
-    title: "Gestion DIA-EIA",
-    description:
-      "Elaboracion y tramitacion de Declaraciones de Impacto Ambiental (DIA) y Estudios de Impacto Ambiental (EIA).",
-    href: "#visitas-tecnicas" as const,
-  },
-  {
-    icon: TreePine,
-    title: "Proyectos de Restauracion",
-    description:
-      "Diseno e implementacion de planes de restauracion ecologica, recuperacion de ecosistemas y biodiversidad.",
-    href: "#visitas-tecnicas" as const,
-  },
-  {
-    icon: ClipboardList,
-    title: "Planes de Mitigacion",
-    description:
-      "Elaboracion de planes integrales de mitigacion ambiental, monitoreo y seguimiento de compromisos ambientales.",
+      "Diseno y ejecucion de estaciones de monitoreo o intervencion de mitigacion.",
     href: "#visitas-tecnicas" as const,
   },
   {
     icon: Map,
-    title: "Cartografia",
+    title: "Cartografia hidro-geo-sociologica",
     description:
-      "Elaboracion de mapas tematicos, analisis espacial con SIG, cartografia digital y levantamientos topograficos para proyectos ambientales.",
+      "Uso de SIG con herramientas como QGIS, QSWAT, Redatam y Python para analisis territorial.",
+    href: "#visitas-tecnicas" as const,
+  },
+  {
+    icon: Waves,
+    title: "Monitoreo de parametros biofisicoquimicos",
+    description:
+      "Seguimiento segun intereses del cliente o proyecto, con comparaciones en el tiempo.",
+    href: "#visitas-tecnicas" as const,
+  },
+  {
+    icon: ShieldCheck,
+    title: "Planes de Mitigacion",
+    description:
+      "Rehabilitacion de riberas degradadas, humedales contaminados y zonas con especies exoticas invasoras.",
+    href: "#visitas-tecnicas" as const,
+  },
+  {
+    icon: GraduationCap,
+    title: "Capacitaciones y educacion",
+    description:
+      "Jornadas teorico-practicas para fortalecer conocimientos sobre normativa legal y metodologias cientificas.",
     href: "#visitas-tecnicas" as const,
   },
 ]
