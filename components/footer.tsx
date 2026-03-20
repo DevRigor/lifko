@@ -30,7 +30,7 @@ export function Footer() {
                 LIFKO SPA
               </span>
             </ScrollLink>
-            <p className="text-background/70 text-sm leading-relaxed">
+            <p className="text-background/85 text-sm leading-relaxed">
               SERVICIOS PROFESIONALES DE INGENIERIA Y ACTIVIDADES CONEXAS DE
               CONSULTORIA TECNICA 711003-SSI.
             </p>
@@ -43,7 +43,7 @@ export function Footer() {
                 <li key={link.href}>
                   <ScrollLink
                     href={link.href}
-                    className="text-background/70 hover:text-background text-sm transition-colors"
+                    className="text-background/85 hover:text-background text-sm transition-colors"
                   >
                     {link.label}
                   </ScrollLink>
@@ -57,7 +57,7 @@ export function Footer() {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service}>
-                  <span className="text-background/70 text-sm">{service}</span>
+                  <span className="text-background/85 text-sm">{service}</span>
                 </li>
               ))}
             </ul>
@@ -65,7 +65,7 @@ export function Footer() {
 
           <div>
             <h4 className="font-semibold text-background mb-4">Informacion</h4>
-            <ul className="space-y-2 text-sm text-background/70">
+            <ul className="space-y-2 text-sm text-background/85">
               <li>
                 <a
                   href="mailto:ingrrnn.correaj@gmail.com"
@@ -81,10 +81,10 @@ export function Footer() {
 
         <div className="border-t border-background/10 mt-12 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-background/50 text-sm">
+            <p className="text-background/75 text-sm">
               {new Date().getFullYear()} LIFKO SPA. Todos los derechos reservados.
             </p>
-            <div className="flex items-center gap-6 text-sm text-background/50">
+            <div className="flex items-center gap-6 text-sm text-background/75">
               <span>Politica de Privacidad</span>
               <span>Terminos de Servicio</span>
             </div>

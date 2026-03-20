@@ -28,7 +28,7 @@ export function Navigation() {
   }, [])
 
   const textClass = isScrolled ? "text-foreground" : "text-white"
-  const linkClass = isScrolled ? "text-foreground" : "text-white/90"
+  const linkClass = isScrolled ? "text-foreground" : "text-white"
   const toggleClass = isScrolled ? "hover:bg-secondary" : "hover:bg-white/10"
   const toggleIconClass = isScrolled ? "text-foreground" : "text-white"
 
@@ -70,7 +70,9 @@ export function Navigation() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-md transition-colors ${toggleClass}`}
-              aria-label="Toggle menu"
+              aria-label={isOpen ? "Cerrar menu de navegacion" : "Abrir menu de navegacion"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
             >
               {isOpen ? (
                 <X className={`w-6 h-6 ${textClass}`} />
@@ -82,7 +84,10 @@ export function Navigation() {
         </div>
 
         {isOpen && (
-          <div className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg">
+          <div
+            id="mobile-navigation"
+            className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg"
+          >
             <div className="flex flex-col py-4 px-4 gap-2">
               {navLinks.map((link) => (
                 <ScrollLink

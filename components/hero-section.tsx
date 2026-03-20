@@ -11,6 +11,8 @@ export function HeroSection() {
           src="/images/FONDO.PNG"
           alt="Rio chileno en naturaleza pristina"
           fill
+          sizes="100vw"
+          quality={70}
           className="object-cover"
           priority
         />
@@ -19,7 +21,7 @@ export function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 text-center">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm sm:text-base uppercase tracking-[0.2em] text-white/80 mb-6 font-medium">
+          <p className="text-sm sm:text-base uppercase tracking-[0.2em] text-white/90 mb-6 font-medium">
             Analisis de Calidad de Agua
           </p>
 
@@ -58,9 +60,9 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-white/70 rounded-full animate-pulse" />
+            <div className="w-1 h-2 bg-white/70 rounded-full" />
           </div>
         </div>
       </div>

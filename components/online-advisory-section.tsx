@@ -1,7 +1,6 @@
-"use client"
-
 import { Video, BookOpen, Languages, MessageCircle, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ScrollLink } from "@/components/scroll-link"
 
 const features = [
   {
@@ -27,20 +26,6 @@ const features = [
 ]
 
 export function OnlineAdvisorySection() {
-  const scrollToVisits = () => {
-    const section = document.querySelector("#visitas-tecnicas")
-    if (!(section instanceof HTMLElement)) return
-
-    const headerOffset = 96
-    const sectionTop = section.getBoundingClientRect().top + window.scrollY - headerOffset
-
-    window.history.replaceState(null, "", "#visitas-tecnicas")
-    window.scrollTo({
-      top: sectionTop,
-      behavior: "smooth",
-    })
-  }
-
   return (
     <section id="asesorias-online" className="py-24 lg:py-32 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -63,12 +48,14 @@ export function OnlineAdvisorySection() {
             </p>
 
             <Button
+              asChild
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={scrollToVisits}
             >
-              Agendar Asesoria Online
-              <ArrowRight className="w-4 h-4" />
+              <ScrollLink href="#visitas-tecnicas" className="inline-flex items-center gap-2">
+                Agendar Asesoria Online
+                <ArrowRight className="w-4 h-4" />
+              </ScrollLink>
             </Button>
           </div>
 

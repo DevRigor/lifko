@@ -1,12 +1,19 @@
+import dynamic from "next/dynamic"
 import Script from "next/script"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
 import { ServicesSection } from "@/components/services-section"
 import { OnlineAdvisorySection } from "@/components/online-advisory-section"
-import { FieldAdvisorySection } from "@/components/field-advisory-section"
-import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
+
+const FieldAdvisorySection = dynamic(
+  () => import("@/components/field-advisory-section").then((mod) => mod.FieldAdvisorySection)
+)
+
+const ContactSection = dynamic(
+  () => import("@/components/contact-section").then((mod) => mod.ContactSection)
+)
 
 export default function HomePage() {
   const structuredData = {

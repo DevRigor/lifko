@@ -33,7 +33,13 @@ export function AboutSection() {
               className="bg-card border border-border rounded-2xl p-4 flex items-center justify-center shadow-sm"
             >
               <div className="relative h-24 w-full">
-                <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  fill
+                  sizes="(max-width: 640px) 40vw, (max-width: 1024px) 28vw, 12vw"
+                  className="object-contain"
+                />
               </div>
             </div>
           ))}

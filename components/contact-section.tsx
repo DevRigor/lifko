@@ -75,12 +75,13 @@ export function ContactSection() {
                     alt="Entorno natural asociado al enfoque ambiental de LIFKO"
                     fill
                     sizes="(max-width: 1024px) 100vw, 48vw"
+                    quality={72}
                     className="object-cover object-center"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                  <p className="text-xs uppercase tracking-[0.22em] text-white/75 font-semibold mb-2">
+                  <p className="text-xs uppercase tracking-[0.22em] text-white/90 font-semibold mb-2">
                     Perfil
                   </p>
                   <h3 className="font-serif text-2xl font-semibold text-white mb-2">LIFKO SpA</h3>
@@ -201,6 +202,7 @@ export function ContactSection() {
                               alt={image.alt}
                               fill
                               sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 26vw"
+                              quality={68}
                               className="object-cover"
                             />
                           </div>

@@ -21,7 +21,12 @@ export function ThemeToggle({ className, iconClassName }: ThemeToggleProps) {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className={cn("w-9 h-9", className)}>
+      <Button
+        variant="ghost"
+        size="icon"
+        className={cn("w-9 h-9", className)}
+        aria-label="Cambiar tema"
+      >
         <Sun className={cn("w-4 h-4", iconClassName)} />
       </Button>
     )
