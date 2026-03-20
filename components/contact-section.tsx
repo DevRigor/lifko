@@ -2,8 +2,8 @@
 
 import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
-import { Car, ChevronLeft, ChevronRight, Linkedin, Mail, UserRound } from "lucide-react"
-import { useCallback, useEffect, useState } from "react"
+import { Car, Linkedin, Mail, UserRound } from "lucide-react"
+import { useEffect, useState } from "react"
 
 const courseImages = [
   {
@@ -28,16 +28,9 @@ export function ContactSection() {
     align: "center",
     loop: true,
     containScroll: false,
+    startIndex: 1,
   })
   const [selectedIndex, setSelectedIndex] = useState(0)
-
-  const scrollPrev = useCallback(() => {
-    emblaApi?.scrollPrev()
-  }, [emblaApi])
-
-  const scrollNext = useCallback(() => {
-    emblaApi?.scrollNext()
-  }, [emblaApi])
 
   useEffect(() => {
     if (!emblaApi) return
@@ -72,21 +65,21 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div className="grid xl:grid-cols-[minmax(0,0.98fr)_minmax(0,1.22fr)] gap-8 xl:gap-12 items-stretch">
-          <aside className="h-full rounded-[2rem] border border-border bg-card p-6 sm:p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-            <div className="pb-6 border-b border-border/70">
-              <div className="relative overflow-hidden rounded-[1.9rem] border border-border bg-background shadow-sm mb-5">
+        <div className="grid gap-6">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-stretch">
+            <aside className="rounded-[2rem] border border-border bg-card p-5 sm:p-7 lg:p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+              <div className="relative overflow-hidden rounded-[1.9rem] border border-border bg-background shadow-sm">
                 <div className="relative aspect-[5/4] w-full">
                   <Image
                     src="/images/Foto_arbol.jpeg"
                     alt="Entorno natural asociado al enfoque ambiental de LIFKO"
                     fill
-                    sizes="(max-width: 1280px) 100vw, 32vw"
+                    sizes="(max-width: 1024px) 100vw, 48vw"
                     className="object-cover object-center"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                   <p className="text-xs uppercase tracking-[0.22em] text-white/75 font-semibold mb-2">
                     Perfil
                   </p>
@@ -97,158 +90,126 @@ export function ContactSection() {
                   </p>
                 </div>
               </div>
+            </aside>
 
-              <div className="grid gap-4">
-                <div className="h-full rounded-2xl border border-border/60 bg-secondary/70 p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
-                      <UserRound className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
-                        Especialidad
-                      </p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Monitoreo, analisis y asesoria ambiental aplicada.
-                      </p>
-                    </div>
+            <div className="grid gap-3 sm:gap-4">
+              <div className="rounded-[2rem] border border-border bg-card p-4 sm:p-5 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
+                    <UserRound className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
+                      Especialidad
+                    </p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Monitoreo, analisis y asesoria ambiental aplicada.
+                    </p>
                   </div>
                 </div>
+              </div>
 
-                <div className="h-full rounded-2xl border border-border/60 bg-secondary/70 p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
-                      <Mail className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
-                        Correo
-                      </p>
-                      <a
-                        href="mailto:ingrrnn.correaj@gmail.com"
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors break-all"
-                      >
-                        ingrrnn.correaj@gmail.com
-                      </a>
-                    </div>
+              <div className="rounded-[2rem] border border-border bg-card p-4 sm:p-5 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
+                    <Mail className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
+                      Correo
+                    </p>
+                    <a
+                      href="mailto:ingrrnn.correaj@gmail.com"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors break-all"
+                    >
+                      ingrrnn.correaj@gmail.com
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                <div className="h-full rounded-2xl border border-border/60 bg-secondary/70 p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
-                      <Linkedin className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
-                        LinkedIn
-                      </p>
-                      <a
-                        href="https://www.linkedin.com/in/javiera-c-correa-a-65a231349/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        Ver perfil profesional
-                      </a>
-                    </div>
+              <div className="rounded-[2rem] border border-border bg-card p-4 sm:p-5 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
+                    <Linkedin className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
+                      LinkedIn
+                    </p>
+                    <a
+                      href="https://www.linkedin.com/in/javiera-c-correa-a-65a231349/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      Ver perfil profesional
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                <div className="h-full rounded-2xl border border-border/60 bg-secondary/70 p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
-                      <Car className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
-                        Licencia Clase B
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Esconsur Temuco
-                      </p>
-                    </div>
+              <div className="rounded-[2rem] border border-border bg-card p-4 sm:p-5 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/12">
+                    <Car className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-1">
+                      Licencia Clase B
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Esconsur Temuco
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          </aside>
+          </div>
 
-          <div className="h-full rounded-[2rem] border border-border bg-card px-4 py-6 sm:px-6 sm:py-7 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6">
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-primary font-semibold mb-2">
-                  Respaldo Visual
-                </p>
-                <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground">
-                  Certificados e investigaciones
-                </h3>
-                <p className="text-muted-foreground mt-2 max-w-2xl">
-                  Aqui podras conocer parte de la experiencia, formacion y respaldo profesional que sustentan cada servicio.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={scrollPrev}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-background text-foreground transition hover:border-primary hover:text-primary"
-                  aria-label="Ver certificado anterior"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={scrollNext}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-background text-foreground transition hover:border-primary hover:text-primary"
-                  aria-label="Ver siguiente certificado"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
+          <div className="rounded-[2rem] border border-border bg-card px-3 py-5 sm:px-5 sm:py-6 lg:px-6 lg:py-7 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+            <div className="mb-6">
+              <p className="text-xs uppercase tracking-[0.24em] text-primary font-semibold mb-2">
+                Respaldo Visual
+              </p>
+              <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground">
+                Certificados e investigaciones
+              </h3>
             </div>
 
-            <div className="rounded-[1.75rem] border border-border/70 bg-secondary/35 px-2 py-4 sm:px-3 sm:py-5">
-              <div className="mx-auto w-full max-w-[48rem] overflow-hidden" ref={emblaRef}>
-                <div className="flex items-center -mx-1 sm:-mx-2">
+            <div className="mx-auto w-full max-w-[50rem] overflow-hidden" ref={emblaRef}>
+              <div className="flex items-center -mx-2">
                 {courseImages.map((image, index) => {
-                  const isActive = index === selectedIndex
-
                   return (
                     <div
                       key={image.src}
-                      className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_78%] lg:flex-[0_0_68%] xl:flex-[0_0_64%] px-1 sm:px-2"
+                      className="min-w-0 flex-[0_0_72%] sm:flex-[0_0_48%] lg:flex-[0_0_34%] xl:flex-[0_0_32%] px-2 py-3"
                     >
-                      <article
-                        className={`transition-all duration-500 ${
-                          isActive
-                            ? "scale-100 opacity-100 blur-0"
-                            : "scale-[0.88] opacity-45 blur-[1.5px]"
+                      <div
+                        className={`group overflow-hidden rounded-[1.9rem] border transition-all duration-300 ${
+                          index === selectedIndex
+                            ? "border-primary/60 shadow-[0_26px_70px_rgba(14,116,144,0.18)]"
+                            : "border-border/60 shadow-[0_18px_50px_rgba(15,23,42,0.08)] hover:border-primary/40"
                         }`}
                       >
-                        <div className="overflow-hidden rounded-[1.75rem] border border-border bg-background shadow-[0_22px_60px_rgba(15,23,42,0.10)]">
-                          <div className="relative aspect-[4/5] w-full bg-muted/40">
+                        <div className="relative aspect-[4/5] w-full bg-muted/20">
+                          <div className="absolute inset-0 z-10 rounded-[1.9rem] ring-1 ring-white/20" />
+                          <div className="absolute inset-0 z-10 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                          <div className="h-full w-full transition-transform duration-300 group-hover:scale-[1.06]">
                             <Image
                               src={image.src}
                               alt={image.alt}
                               fill
-                              sizes="(max-width: 640px) 80vw, (max-width: 1024px) 55vw, 36vw"
-                              className="object-contain p-4"
+                              sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 26vw"
+                              className="object-cover"
                             />
                           </div>
-                          <div className="border-t border-border bg-card px-5 py-4">
-                            <p className="text-sm uppercase tracking-[0.18em] text-primary font-semibold mb-1">
-                              Documento {index + 1}
-                            </p>
-                            <p className="font-medium text-foreground">{image.label}</p>
-                          </div>
                         </div>
-                      </article>
+                      </div>
                     </div>
                   )
                 })}
                 </div>
-              </div>
             </div>
 
             <div className="mt-5 flex items-center justify-center gap-2">
