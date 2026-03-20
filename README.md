@@ -38,3 +38,4 @@ La landing incluye una seccion de perfil profesional con fotografia editorial, d
 - La navegacion interna usa offset para respetar la cabecera fija.
 - La marca visual usa una paleta agua/bosque y `public/Logo.svg` como identidad principal.
 - El correo depende de variables locales como `RESEND_API_KEY`, `CONTACT_EMAIL` y `RESEND_FROM_EMAIL`.
+- Si se quiere servir assets desde un CDN externo, definir `NEXT_PUBLIC_CDN_BASE_URL` con la base donde viven las imagenes y el logo.

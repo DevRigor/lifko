@@ -1,12 +1,13 @@
 import Image from "next/image"
+import { assetUrl } from "@/lib/assets"
 
 const odsLogos = [
-  { src: "/images/ODS_3.png", alt: "ODS 3" },
-  { src: "/images/ODS_4.png", alt: "ODS 4" },
-  { src: "/images/ODS_6.png", alt: "ODS 6" },
-  { src: "/images/ods_13.png", alt: "ODS 13" },
-  { src: "/images/ods_14.png", alt: "ODS 14" },
-  { src: "/images/ods_15.png", alt: "ODS 15" },
+  { src: assetUrl("/images/ODS_3.png"), alt: "ODS 3" },
+  { src: assetUrl("/images/ODS_4.png"), alt: "ODS 4" },
+  { src: assetUrl("/images/ODS_6.png"), alt: "ODS 6" },
+  { src: assetUrl("/images/ods_13.png"), alt: "ODS 13" },
+  { src: assetUrl("/images/ods_14.png"), alt: "ODS 14" },
+  { src: assetUrl("/images/ods_15.png"), alt: "ODS 15" },
 ]
 
 export function AboutSection() {

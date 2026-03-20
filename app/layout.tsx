@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { assetUrl } from '@/lib/assets'
 import './globals.css'
 
 const siteUrl = 'https://www.lifkospa.cl'
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
       'Consultoria ambiental especializada en calidad de agua, monitoreo biofisicoquimico y cartografia para proyectos en Chile.',
     images: [
       {
-        url: '/images/FONDO.PNG',
+        url: assetUrl('/images/FONDO.PNG'),
         width: 1200,
         height: 630,
         alt: 'LIFKO SPA consultoria ambiental y analisis de calidad de agua',
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     title: 'LIFKO SPA | Analisis de Calidad de Agua en Chile',
     description:
       'Consultoria ambiental especializada en calidad de agua, monitoreo biofisicoquimico y cartografia para proyectos en Chile.',
-    images: ['/images/FONDO.PNG'],
+    images: [assetUrl('/images/FONDO.PNG')],
   },
   robots: {
     index: true,
@@ -67,11 +68,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/Logo.svg',
+        url: assetUrl('/Logo.svg'),
         type: 'image/svg+xml',
       },
     ],
-    apple: '/Logo.svg',
+    apple: assetUrl('/Logo.svg'),
   },
 }
 

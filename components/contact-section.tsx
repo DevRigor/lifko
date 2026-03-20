@@ -4,20 +4,21 @@ import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
 import { Car, Linkedin, Mail, UserRound } from "lucide-react"
 import { useEffect, useState } from "react"
+import { assetUrl } from "@/lib/assets"
 
 const courseImages = [
   {
-    src: "/images/Cursos, Certificaciones e Investigaciones. Mapuzuguletuai\u00F1A1.2..png",
+    src: assetUrl("/images/Cursos, Certificaciones e Investigaciones. Mapuzuguletuai\u00F1A1.2..png"),
     alt: "Certificacion Mapuzuguletuain",
     label: "Mapudugun A.2",
   },
   {
-    src: "/images/Cursos, Certificaciones e Investigaciones_XLI-Congreso..png",
+    src: assetUrl("/images/Cursos, Certificaciones e Investigaciones_XLI-Congreso..png"),
     alt: "XLI Congreso Nacional de Entomologia",
     label: "XLI Congreso Nacional de Entomologia",
   },
   {
-    src: "/images/Cursos, Certificaciones e Investigaciones_XLII-Congreso.png",
+    src: assetUrl("/images/Cursos, Certificaciones e Investigaciones_XLII-Congreso.png"),
     alt: "XLII Congreso Nacional de Entomologia",
     label: "XLII Congreso Nacional de Entomologia",
   },
@@ -71,7 +72,7 @@ export function ContactSection() {
               <div className="relative overflow-hidden rounded-[1.9rem] border border-border bg-background shadow-sm">
                 <div className="relative aspect-[5/4] w-full">
                   <Image
-                    src="/images/Foto_arbol.jpeg"
+                    src={assetUrl("/images/Foto_arbol.jpeg")}
                     alt="Entorno natural asociado al enfoque ambiental de LIFKO"
                     fill
                     sizes="(max-width: 1024px) 100vw, 48vw"

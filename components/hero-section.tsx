@@ -2,13 +2,14 @@ import Image from "next/image"
 import { ArrowRight, Droplets } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollLink } from "@/components/scroll-link"
+import { assetUrl } from "@/lib/assets"
 
 export function HeroSection() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/FONDO.PNG"
+          src={assetUrl("/images/FONDO.PNG")}
           alt="Rio chileno en naturaleza pristina"
           fill
           sizes="100vw"

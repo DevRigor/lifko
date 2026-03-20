@@ -1,3 +1,17 @@
+const cdnBaseUrl = process.env.NEXT_PUBLIC_CDN_BASE_URL
+
+const remotePatterns = []
+
+if (cdnBaseUrl) {
+  const url = new URL(cdnBaseUrl)
+  remotePatterns.push({
+    protocol: url.protocol.replace(":", ""),
+    hostname: url.hostname,
+    port: url.port,
+    pathname: `${url.pathname.replace(/\/$/, "") || ""}/**`,
+  })
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -5,6 +19,7 @@ const nextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
+    remotePatterns,
   },
 }
 
