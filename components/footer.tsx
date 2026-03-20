@@ -82,7 +82,7 @@ export function Footer() {
         <div className="border-t border-background/10 mt-12 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
-              © {new Date().getFullYear()} LIFKO SPA. Todos los derechos reservados.
+              {new Date().getFullYear()} LIFKO SPA. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-6 text-sm text-background/50">
               <span>Politica de Privacidad</span>
