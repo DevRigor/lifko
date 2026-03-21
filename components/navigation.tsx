@@ -1,19 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SpiralLogo } from "@/components/spiral-logo"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ScrollLink } from "@/components/scroll-link"
 
-const navLinks = [
+const sectionLinks = [
   { href: "#inicio" as const, label: "Inicio" },
   { href: "#nosotros" as const, label: "ODS" },
   { href: "#servicios" as const, label: "Servicios" },
   { href: "#visitas-tecnicas" as const, label: "Visitas Tecnicas" },
   { href: "#contacto" as const, label: "Informacion Personal" },
 ]
+
+const routeLinks = [{ href: "/recursos", label: "Recursos" }]
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -50,7 +53,7 @@ export function Navigation() {
           </ScrollLink>
 
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
+            {sectionLinks.map((link) => (
               <ScrollLink
                 key={link.href}
                 href={link.href}
@@ -58,6 +61,15 @@ export function Navigation() {
               >
                 {link.label}
               </ScrollLink>
+            ))}
+            {routeLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${linkClass}`}
+              >
+                {link.label}
+              </Link>
             ))}
             <ThemeToggle className={toggleClass} iconClassName={toggleIconClass} />
             <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
@@ -89,7 +101,7 @@ export function Navigation() {
             className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg"
           >
             <div className="flex flex-col py-4 px-4 gap-2">
-              {navLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <ScrollLink
                   key={link.href}
                   href={link.href}
@@ -98,6 +110,16 @@ export function Navigation() {
                 >
                   {link.label}
                 </ScrollLink>
+              ))}
+              {routeLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-foreground hover:text-primary hover:bg-secondary px-4 py-3 rounded-md transition-colors"
+                >
+                  {link.label}
+                </Link>
               ))}
               <Button asChild className="mt-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                 <ScrollLink href="#visitas-tecnicas" onClick={() => setIsOpen(false)}>

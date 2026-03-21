@@ -1,13 +1,16 @@
+import Link from "next/link"
 import { SpiralLogo } from "@/components/spiral-logo"
 import { ScrollLink } from "@/components/scroll-link"
 
-const navLinks = [
+const sectionLinks = [
   { href: "#inicio" as const, label: "Inicio" },
   { href: "#nosotros" as const, label: "ODS" },
   { href: "#servicios" as const, label: "Servicios" },
   { href: "#visitas-tecnicas" as const, label: "Visitas Tecnicas" },
   { href: "#contacto" as const, label: "Informacion Personal" },
 ]
+
+const routeLinks = [{ href: "/recursos", label: "Recursos" }]
 
 const services = [
   "Informes tecnicos",
@@ -39,7 +42,7 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-background mb-4">Navegacion</h4>
             <ul className="space-y-2">
-              {navLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <li key={link.href}>
                   <ScrollLink
                     href={link.href}
@@ -47,6 +50,16 @@ export function Footer() {
                   >
                     {link.label}
                   </ScrollLink>
+                </li>
+              ))}
+              {routeLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-background/85 hover:text-background text-sm transition-colors"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
