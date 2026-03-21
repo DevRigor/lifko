@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import { redirect } from "next/navigation"
 import Script from "next/script"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
@@ -16,7 +17,29 @@ const ContactSection = dynamic(
   () => import("@/components/contact-section").then((mod) => mod.ContactSection)
 )
 
-export default function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const params = await searchParams
+  const code = typeof params.code === "string" ? params.code : undefined
+
+  if (code) {
+    const callbackParams = new URLSearchParams()
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (typeof value === "string") {
+        callbackParams.set(key, value)
+        return
+      }
+
+      value?.forEach((item) => callbackParams.append(key, item))
+    })
+
+    redirect(`/auth/callback?${callbackParams.toString()}`)
+  }
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
