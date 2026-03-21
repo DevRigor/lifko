@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronDown, ChevronRight, Download, ExternalLink, FileText, Folder, FolderOpen } from "lucide-react"
+import { ChevronDown, ChevronRight, Download, ExternalLink, FileText, Folder, FolderOpen, PanelLeftOpen } from "lucide-react"
 import type { ResourceExplorerView, ResourceFolder, ResourceFolderNode, ResourceView } from "@/types/resources"
 
 function buildTree(folders: ResourceFolder[]) {
@@ -43,6 +43,41 @@ function buildOpenFolderSet(folders: ResourceFolder[], currentFolder: ResourceFo
 
 function folderHref(folder: ResourceFolder) {
   return `/recursos?folder=${encodeURIComponent(folder.slug)}`
+}
+
+function ResourceBreadcrumbs({ breadcrumbs }: { breadcrumbs: ResourceFolder[] }) {
+  const currentFolder = breadcrumbs[breadcrumbs.length - 1] ?? null
+
+  return (
+    <nav
+      aria-label="Breadcrumb"
+      className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground"
+    >
+      <Link href="/recursos" scroll={false} className="rounded-full border border-border/70 px-3 py-1 transition-colors hover:bg-secondary/70 hover:text-foreground">
+        Recursos
+      </Link>
+      {breadcrumbs.map((folder, index) => {
+        const isLast = currentFolder?.id === folder.id
+
+        return (
+          <span key={folder.id} className="inline-flex items-center gap-2">
+            <ChevronRight className="h-4 w-4" />
+            {isLast ? (
+              <span className="rounded-full bg-primary/12 px-3 py-1 text-foreground">{folder.name}</span>
+            ) : (
+              <Link
+                href={folderHref(folder)}
+                scroll={false}
+                className="rounded-full border border-border/70 px-3 py-1 transition-colors hover:bg-secondary/70 hover:text-foreground"
+              >
+                {folder.name}
+              </Link>
+            )}
+          </span>
+        )
+      })}
+    </nav>
+  )
 }
 
 function formatFileSize(fileSize: number | null) {
@@ -193,7 +228,7 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
       </div>
 
       <div className="grid min-h-[38rem] lg:grid-cols-[20rem_minmax(0,1fr)]">
-        <aside className="border-r border-border/70 bg-background/70 p-4">
+        <aside className="hidden border-r border-border/70 bg-background/70 p-4 lg:block">
           <div className="mb-4 flex items-center gap-2 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             <Folder className="h-4 w-4" />
             Jerarquia de carpetas
@@ -228,6 +263,51 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
 
         <div className="bg-background/50">
           <div className="border-b border-border/70 px-6 py-4">
+            <div className="flex flex-col gap-4">
+              <div className="lg:hidden">
+                <details className="overflow-hidden rounded-2xl border border-border/70 bg-background/80">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
+                    <span className="inline-flex items-center gap-2">
+                      <PanelLeftOpen className="h-4 w-4 text-primary" />
+                      Navegar carpetas
+                    </span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  </summary>
+
+                  <div className="space-y-2 border-t border-border/70 px-3 py-3">
+                    <Link
+                      href="/recursos"
+                      scroll={false}
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                        explorer.currentFolder === null ? "bg-primary/12 text-foreground" : "text-foreground hover:bg-secondary/60"
+                      }`}
+                    >
+                      <FolderOpen className="h-4 w-4 text-primary" />
+                      Raiz
+                    </Link>
+                    {tree.length > 0 ? (
+                      <ul className="space-y-1">
+                        {tree.map((node) => (
+                          <ResourceTreeBranch
+                            key={node.id}
+                            node={node}
+                            currentFolderId={explorer.currentFolder?.id ?? null}
+                            openFolderIds={openFolderIds}
+                          />
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-border bg-card/60 p-4 text-sm text-muted-foreground">
+                        Todavia no hay carpetas disponibles.
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </div>
+
+              <ResourceBreadcrumbs breadcrumbs={explorer.breadcrumbs} />
+            </div>
+
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Contenido de carpeta</p>
               <h3 className="mt-2 text-2xl font-semibold text-foreground">{currentTitle}</h3>
