@@ -46,10 +46,16 @@ export function FieldAdvisorySection() {
       if (!mapRef.current || mapInstanceRef.current) return
 
       try {
+        const container = mapRef.current as HTMLDivElement & { _leaflet_id?: number }
+
+        if (container._leaflet_id) {
+          delete container._leaflet_id
+        }
+
         const L = await import("leaflet")
         const defaultCenter = { lat: -33.4489, lng: -70.6693 }
 
-        const map = L.map(mapRef.current, {
+        const map = L.map(container, {
           center: [defaultCenter.lat, defaultCenter.lng],
           zoom: 6,
           zoomControl: true,
