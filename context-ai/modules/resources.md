@@ -1,90 +1,45 @@
 # Resources Module
 
 ## Estado
-Propuesta de investigacion para un nuevo modulo. No esta implementado aun.
+Implementado como modulo funcional con vista publica y panel admin.
 
 ## Objetivo
-Agregar una seccion `recursos` dentro de la app para mostrar una biblioteca publica de documentos y carpetas, administrada completamente desde LIFKO mediante una capa de datos propia y sin depender de Google Drive como fuente principal.
+Ofrecer una biblioteca navegable de carpetas y documentos desde `/recursos`, gestionada desde LIFKO y respaldada por Supabase.
 
-## Resultado esperado
-- subir documentos desde un panel privado de LIFKO
-- organizar carpetas o categorias desde la misma app
-- publicar y despublicar recursos sin tocar codigo
-- mostrar en la web publica solo los recursos habilitados
-- mantener una UX limpia sin exponer logica de administracion al frontend publico
+## Rutas
+- `/recursos`: explorador publico de carpetas y documentos publicados
+- `/admin/login`: acceso admin con Google OAuth
+- `/admin/recursos`: panel privado para gestionar carpetas y subir archivos
+- `/auth/callback`: callback de autenticacion con Supabase
 
-## Decision recomendada
-Para este proyecto conviene usar Supabase como backend administrado.
+## Stack usado
+- `Supabase Postgres`: metadata de carpetas y recursos
+- `Supabase Storage`: archivos reales
+- `Supabase Auth`: autenticacion admin con Google
+- `Next.js App Router`: UI publica y privada
 
-La recomendacion concreta es:
-- `Supabase Postgres` para metadata y estructura
-- `Supabase Storage` para archivos
-- `Supabase Auth` para acceso al panel admin
-- Next.js como capa de UI publica y privada
+## Arquitectura aplicada
+### Vista publica
+- usa un explorador de carpetas en dos paneles
+- muestra solo carpetas publicadas
+- muestra solo documentos publicados
+- permite navegar entre carpetas, abrir archivos y descargarlos
+- no expone acciones administrativas
 
-## Por que Supabase encaja mejor que Google Drive
-- evita depender de permisos y enlaces compartidos de Drive
-- permite administrar todo desde LIFKO
-- separa claramente contenido publico de panel privado
-- da control real sobre publicacion, orden, categorias y visibilidad
-- simplifica escalar a buscador, destacados, filtros y metricas
-- reduce friccion editorial porque la estructura depende de tu producto, no de un filesystem externo
+### Panel admin
+- usa un explorador tipo sistema de archivos
+- permite crear carpeta raiz desde un boton dedicado
+- expone acciones por clic secundario sobre carpetas
+- permite crear subcarpetas, renombrar, eliminar carpetas vacias y subir archivos
+- usa Google OAuth mas whitelist interna de administradores
 
-## Alcance funcional recomendado
-- crear una ruta publica `/recursos`
-- crear una ruta privada `/admin/recursos`
-- subir PDF, imagenes y adjuntos desde el panel admin
-- crear carpetas o categorias visibles en el frontend
-- listar recursos con nombre, descripcion, tipo, fecha y enlace
-- definir si un recurso es publico, privado o borrador
-- permitir ordenar manualmente carpetas y documentos
-
-## Modelo operativo recomendado
-### Frontend publico
-La seccion `recursos` solo debe consumir datos ya publicados y renderizar UX.
-
-No deberia:
-- decidir reglas de negocio
-- conocer archivos ocultos o borradores
-- manejar credenciales sensibles
-
-### Admin privado
-El panel de LIFKO debe permitir:
-- subir archivos
-- editar metadata
-- mover recursos entre carpetas
-- definir orden visual
-- publicar o despublicar
-- eliminar o archivar contenido
-
-## Arquitectura sugerida
-### Capas
-- `lib/supabase/`: clientes server y browser
-- `app/recursos/page.tsx`: biblioteca publica
-- `app/admin/recursos/page.tsx`: gestion privada
-- `components/resources/*`: componentes visuales publicos
-- `components/admin/resources/*`: tabla, formulario, uploader, selector de carpeta
-
-### Flujo publico
-1. El usuario entra a `/recursos`.
-2. La app consulta solo carpetas y recursos publicados.
-3. El frontend renderiza la interfaz de exploracion.
-4. Los archivos se abren desde URLs resueltas por Storage o por una capa server-side.
-
-### Flujo admin
-1. El usuario autenticado entra a `/admin/recursos`.
-2. Sube un archivo a Supabase Storage.
-3. Guarda metadata en Postgres.
-4. Define carpeta, orden y estado de publicacion.
-5. El frontend publico refleja el cambio cuando corresponda.
-
-## Modelo de datos sugerido
+## Modelo de datos real
 ### `resource_folders`
 - `id`
 - `name`
 - `slug`
-- `parent_id`
 - `description`
+- `parent_id`
 - `sort_order`
 - `is_published`
 - `created_at`
@@ -107,151 +62,70 @@ El panel de LIFKO debe permitir:
 - `created_at`
 - `updated_at`
 
-### Opcional: `resource_tags`
-- `id`
-- `name`
-- `slug`
+### `admin_users`
+- `email`
 
-### Opcional: `resource_tag_relations`
-- `resource_id`
-- `tag_id`
+## Reglas importantes
+- las carpetas se leen desde `resource_folders`, no desde la estructura del bucket
+- los documentos se leen desde `resources`, no desde el listado fisico de Storage
+- borrar archivos en Storage no elimina automaticamente su metadata en Postgres
+- para que un recurso desaparezca de la UI, debe eliminarse o despublicarse en tabla
+- la vista publica se sirve sin cache persistente para reflejar cambios reales de Supabase
 
-## Storage recomendado
-### Bucket sugerido
-- `resources`
+## Seguridad
+- login con Google configurado en Supabase Auth
+- acceso admin validado contra `admin_users` con `is_resource_admin()`
+- usuarios no autorizados son deslogueados y redirigidos a `/`
+- el bucket `resources` es privado
+- la vista publica consume signed URLs
 
-### Convencion de rutas
-- `resources/folders/{folder-slug}/{filename}`
-- `resources/covers/{resource-slug}.jpg`
+## Uploads
+- subida directa desde navegador al bucket `resources`
+- limite actual orientado a plan Free
+- tipos permitidos: `pdf`, `jpg`, `jpeg`, `png`, `webp`
+- la metadata se guarda despues de subir el archivo
 
-### Reglas
-- el archivo real vive en Storage
-- la metadata vive en Postgres
-- el frontend nunca debe depender solo del nombre fisico del archivo para renderizar contenido
+## UX publica
+- copy orientado al usuario final, no a operacion interna
+- arbol de carpetas persistente en la izquierda
+- contenido de la carpeta seleccionada en el panel derecho
+- acciones visibles para el usuario: `Ver` y `Descargar`
 
-## Seguridad y permisos
-### Auth
-Usar `Supabase Auth` para proteger `/admin/recursos`.
+## UX admin
+- boton fijo: `Nueva carpeta raiz`
+- acciones restantes por clic secundario
+- `Subir documento aqui` solo aparece dentro de una carpeta
+- el panel derecho muestra solo el contenido de la carpeta seleccionada
 
-### Politicas recomendadas
-- lectura publica solo para recursos publicados
-- lectura privada total solo para administradores autenticados
-- escritura en Storage solo para usuarios admin
-- escritura en tablas solo para usuarios admin
-
-### Nota practica
-Aunque Supabase permite mucho desde cliente, conviene que las operaciones sensibles del admin pasen por Server Actions o rutas internas de Next.js para mantener mejor control del dominio y la validacion.
-
-## Variables de entorno futuras
+## Variables de entorno
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE`
+- `RESEND_API_KEY`
+- `CONTACT_EMAIL`
+- `RESEND_FROM_EMAIL`
+- `NEXT_PUBLIC_CDN_BASE_URL`
 
-## UX recomendada para la seccion `recursos`
-### Ubicacion
-La mejor opcion para este proyecto es una ruta dedicada `/recursos`.
+## Archivos clave
+- `app/recursos/page.tsx`
+- `app/admin/login/page.tsx`
+- `app/admin/recursos/page.tsx`
+- `app/admin/recursos/actions.ts`
+- `app/auth/callback/route.ts`
+- `components/resources/resource-explorer.tsx`
+- `components/admin/resources/admin-folder-manager.tsx`
+- `lib/resources.ts`
+- `lib/resource-storage.ts`
+- `lib/supabase/*`
+- `supabase/resources-schema.sql`
+- `supabase/resources-admin-auth-fix.sql`
+- `supabase/resources-storage-upload-fix.sql`
 
-Motivos:
-- la interfaz necesita mas espacio que una seccion de landing
-- puede crecer a filtros, breadcrumbs y buscador
-- separa mejor la capa comercial de la biblioteca documental
+## Riesgos operativos
+- si se borra solo Storage y no las tablas, quedaran registros huerfanos
+- si se cambia de proyecto Supabase sin actualizar env vars, la app apuntara a otra base
+- si las policies se relajan demasiado, se puede exponer contenido privado
 
-### Navegacion
-- agregar enlace `Recursos` en `components/navigation.tsx`
-- ese enlace debe navegar a `/recursos`
-- mantener desde la landing algun CTA secundario a la biblioteca si hace sentido comercial
-
-### Componentes visuales sugeridos
-- breadcrumb
-- arbol o sidebar de carpetas
-- lista o grid de recursos
-- iconos por tipo de archivo
-- preview de portada cuando exista
-- estados de carga, vacio y error
-- acciones `Ver` y `Descargar`
-
-## Reglas de negocio sugeridas
-- solo mostrar carpetas publicadas
-- solo mostrar recursos publicados
-- ocultar archivos huerfanos o sin metadata valida
-- priorizar carpetas antes que archivos en la UI
-- permitir orden manual por `sort_order`
-- mapear mime types a iconos y acciones legibles
-
-## Comparacion resumida
-### Google Drive
-Ventajas:
-- rapido para una prueba inicial
-
-Desventajas:
-- administracion fuera de LIFKO
-- permisos poco controlables desde producto
-- mala base para panel admin real
-- UX limitada por estructura externa
-
-### Supabase
-Ventajas:
-- admin completo dentro del producto
-- DB, storage y auth en el mismo stack
-- mejor control de permisos y publicacion
-- mejor base para escalar funciones futuras
-
-Desventajas:
-- requiere modelar tablas y politicas
-- hay una configuracion inicial mayor que con Drive
-
-## Riesgos
-- si las politicas quedan mal definidas, se puede exponer contenido privado
-- si se mezcla demasiada logica en cliente, el admin puede quedar fragil
-- si la estructura de carpetas se diseña mal, luego cuesta ordenar la biblioteca
-- previews y descargas pueden requerir reglas distintas segun el bucket y el tipo de archivo
-
-## Mitigaciones
-- definir esquema de datos antes de implementar UI compleja
-- separar claramente vista publica y panel admin
-- usar policies conservadoras desde el inicio
-- centralizar uploads y mutaciones sensibles en server actions o endpoints propios
-- establecer convenciones editoriales para carpetas, slugs y orden
-
-## Cache y rendimiento
-Recomendado:
-- usar render server-side para `/recursos`
-- cachear consultas publicas si la frecuencia de cambio no es alta
-- paginar o lazy-load si la biblioteca crece mucho
-- optimizar previews para imagenes y PDFs pesados
-
-## Fases sugeridas
-### Fase 1
-- integrar Supabase
-- crear tablas `resource_folders` y `resources`
-- crear bucket `resources`
-- construir `/recursos` publico simple
-- construir `/admin/recursos` con carga basica
-
-### Fase 2
-- breadcrumbs
-- filtros por tipo
-- portadas
-- orden manual
-- publicacion y borrador
-
-### Fase 3
-- buscador
-- tags
-- destacados
-- analitica de descargas
-- auditoria basica de cambios
-
-## Impacto en la arquitectura actual
-- la app deja de ser solo una landing y suma al menos una ruta publica y una privada
-- la navegacion principal debera mezclar scroll interno con rutas reales
-- la documentacion de arquitectura e integraciones deberia actualizarse cuando el modulo se implemente
-- el proyecto pasa a depender de un backend administrado externo, pero no de un backend propio mantenido por ustedes
-
-## Siguiente paso recomendado
-Si se decide avanzar, el siguiente entregable deberia ser un spike tecnico con:
-- integracion base de Supabase en Next.js
-- esquema SQL inicial para carpetas y recursos
-- pagina publica `app/recursos/page.tsx`
-- panel privado `app/admin/recursos/page.tsx`
-- upload inicial a Storage y listado de recursos publicados
+## Siguiente mejora recomendada
+- eliminar recursos desde admin borrando tanto metadata como archivo en Storage
+- agregar edicion y borrado de documentos
+- agregar mover documentos entre carpetas

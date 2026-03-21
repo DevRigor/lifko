@@ -1,4 +1,4 @@
-import { cache } from "react"
+import { unstable_noStore as noStore } from "next/cache"
 import { createSupabaseServerClient } from "@/lib/supabase/server"
 import {
   isStoragePath,
@@ -107,7 +107,8 @@ export function buildResourceExplorerView(
   }
 }
 
-export const getPublishedResourcesLibrary = cache(async (): Promise<ResourcesLibrary> => {
+export async function getPublishedResourcesLibrary(): Promise<ResourcesLibrary> {
+  noStore()
   const supabase = await createSupabaseServerClient()
 
   const [foldersResult, resourcesResult] = await Promise.all([
@@ -151,9 +152,10 @@ export const getPublishedResourcesLibrary = cache(async (): Promise<ResourcesLib
     schemaReady: true,
     errorMessage: null,
   }
-})
+}
 
-export const getAdminResourcesLibrary = cache(async (): Promise<ResourcesLibrary> => {
+export async function getAdminResourcesLibrary(): Promise<ResourcesLibrary> {
+  noStore()
   const supabase = await createSupabaseServerClient()
 
   const [foldersResult, resourcesResult] = await Promise.all([
@@ -195,4 +197,4 @@ export const getAdminResourcesLibrary = cache(async (): Promise<ResourcesLibrary
     schemaReady: true,
     errorMessage: null,
   }
-})
+}

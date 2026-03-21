@@ -6,6 +6,7 @@
 ## Responsabilidad
 - mostrar identidad LIFKO
 - permitir navegacion entre secciones
+- enlazar rutas reales como `/recursos`
 - mantener accesible el CTA principal
 - exponer el cambio de tema
 
@@ -13,6 +14,7 @@
 - la cabecera es fija
 - cambia visualmente al hacer scroll
 - usa `ScrollLink` para que cada seccion alinee bajo la cabecera
+- convive con enlaces de ruta cuando el destino no pertenece a la landing
 
 ## Riesgos al modificar
 - si se rompe el offset, la navegacion deja las secciones cortadas

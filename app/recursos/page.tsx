@@ -8,6 +8,8 @@ export const metadata = {
   title: "Recursos",
   description: "Biblioteca de recursos, documentos y materiales de consulta de LIFKO.",
 }
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 export default async function ResourcesPage({
   searchParams,
