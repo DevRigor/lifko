@@ -42,17 +42,16 @@ export function FieldAdvisorySection() {
   const markerRef = useRef<LeafletMarker | null>(null)
 
   useEffect(() => {
+    let cancelled = false
+
     const initMap = async () => {
       if (!mapRef.current || mapInstanceRef.current) return
 
       try {
-        const container = mapRef.current as HTMLDivElement & { _leaflet_id?: number }
-
-        if (container._leaflet_id) {
-          delete container._leaflet_id
-        }
-
         const L = await import("leaflet")
+        if (cancelled || !mapRef.current || mapInstanceRef.current) return
+
+        const container = mapRef.current as HTMLDivElement & { _leaflet_id?: number }
         const defaultCenter = { lat: -33.4489, lng: -70.6693 }
 
         const map = L.map(container, {
@@ -80,6 +79,7 @@ export function FieldAdvisorySection() {
     void initMap()
 
     return () => {
+      cancelled = true
       markerRef.current?.remove()
       mapInstanceRef.current?.remove()
       markerRef.current = null

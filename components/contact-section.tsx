@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react"
 import { Car, Linkedin, Mail, UserRound } from "lucide-react"
 import { useEffect, useState } from "react"
 import { assetUrl } from "@/lib/assets"
+import { MediaLightbox } from "@/components/ui/media-lightbox"
 
 const courseImages = [
   {
@@ -32,6 +33,7 @@ export function ContactSection() {
     startIndex: 1,
   })
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [previewImage, setPreviewImage] = useState<(typeof courseImages)[number] | null>(null)
 
   useEffect(() => {
     if (!emblaApi) return
@@ -193,6 +195,16 @@ export function ContactSection() {
                             ? "border-primary/60 shadow-[0_26px_70px_rgba(14,116,144,0.18)]"
                             : "border-border/60 shadow-[0_18px_50px_rgba(15,23,42,0.08)] hover:border-primary/40"
                         }`}
+                        onClick={() => setPreviewImage(image)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault()
+                            setPreviewImage(image)
+                          }
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Abrir imagen ${image.label}`}
                       >
                         <div className="relative aspect-[4/5] w-full bg-muted/20">
                           <div className="absolute inset-0 z-10 rounded-[1.9rem] ring-1 ring-white/20" />
@@ -230,6 +242,16 @@ export function ContactSection() {
             </div>
           </div>
         </div>
+
+        {previewImage ? (
+          <MediaLightbox
+            title={previewImage.label}
+            src={previewImage.src}
+            alt={previewImage.alt}
+            kind="image"
+            onClose={() => setPreviewImage(null)}
+          />
+        ) : null}
       </div>
     </section>
   )

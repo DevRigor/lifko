@@ -267,7 +267,7 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
     const folderSlug = folder?.slug ?? slugifyResourceValue(title)
     const storagePath = buildResourceStoragePath(folderSlug || null, file.name)
 
-    setStatusMessage("Subiendo archivo al bucket privado...")
+    setStatusMessage("Subiendo archivo...")
 
     const { error: uploadError } = await supabase.storage.from(RESOURCE_BUCKET).upload(storagePath, file, {
       cacheControl: "3600",
@@ -277,7 +277,7 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
 
     if (uploadError) {
       setStatusTone("error")
-      setStatusMessage(`No se pudo subir el archivo: ${uploadError.message}`)
+      setStatusMessage("No se pudo subir el archivo. Intenta nuevamente.")
       return
     }
 
@@ -293,7 +293,7 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
   }
 
   return (
-    <ModalShell title={`Subir en ${targetFolder?.name ?? "esta carpeta"}`} subtitle={`Carga directa desde tu PC al bucket privado. Limite actual: ${formatBytes(RESOURCE_MAX_UPLOAD_BYTES)}.`} onClose={onClose}>
+    <ModalShell title={`Subir en ${targetFolder?.name ?? "esta carpeta"}`} subtitle={`Carga directa desde tu PC. Limite actual: ${formatBytes(RESOURCE_MAX_UPLOAD_BYTES)}.`} onClose={onClose}>
       <form onSubmit={(event) => { event.preventDefault(); setStatusMessage(null); setStatusTone("neutral"); const formData = new FormData(event.currentTarget); void processSubmit(formData) }} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="resource-title-modal">Titulo</Label>

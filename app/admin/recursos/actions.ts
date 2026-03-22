@@ -70,7 +70,7 @@ export async function createFolderAction(formData: FormData) {
   })
 
   if (error) {
-    fail(`No se pudo crear la carpeta: ${error.message}`)
+    fail("No se pudo crear la carpeta.")
   }
 
   refreshAdminPaths()
@@ -98,7 +98,7 @@ export async function renameFolderAction(formData: FormData) {
     .eq("id", id)
 
   if (error) {
-    fail(`No se pudo renombrar la carpeta: ${error.message}`)
+    fail("No se pudo actualizar la carpeta.")
   }
 
   refreshAdminPaths()
@@ -131,7 +131,7 @@ export async function deleteFolderAction(formData: FormData) {
   const { error } = await supabase.from("resource_folders").delete().eq("id", id)
 
   if (error) {
-    fail(`No se pudo eliminar la carpeta: ${error.message}`)
+    fail("No se pudo eliminar la carpeta.")
   }
 
   refreshAdminPaths()
@@ -154,7 +154,7 @@ export async function createResourceAction(formData: FormData) {
   }
 
   if (!filePath) {
-    fail("El recurso necesita un archivo subido al bucket.")
+    fail("El recurso necesita un archivo cargado.")
   }
 
   const slugInput = String(formData.get("slug") ?? "").trim()
@@ -185,7 +185,7 @@ export async function createResourceAction(formData: FormData) {
   })
 
   if (error) {
-    fail(`No se pudo crear el recurso: ${error.message}`)
+    fail("No se pudo crear el recurso.")
   }
 
   refreshAdminPaths()

@@ -8,9 +8,10 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get("code")
   const next = requestUrl.searchParams.get("next")
+  const nextPath = next?.startsWith("/") ? next : "/admin/recursos"
 
   if (code) {
-    const response = NextResponse.redirect(new URL(next?.startsWith("/") ? next : "/admin/recursos", request.url))
+    const response = NextResponse.redirect(new URL(nextPath, request.url))
     const supabase = createServerClient(
       supabaseUrl,
       supabasePublishableKey,
@@ -29,11 +30,17 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (error) {
-      return NextResponse.redirect(new URL("/", request.url))
+      const loginUrl = new URL("/admin/login", request.url)
+      loginUrl.searchParams.set("next", nextPath)
+      loginUrl.searchParams.set("error", "No fue posible completar el acceso.")
+      return NextResponse.redirect(loginUrl)
     }
 
     return response
   }
 
-  return NextResponse.redirect(new URL("/", request.url))
+  const loginUrl = new URL("/admin/login", request.url)
+  loginUrl.searchParams.set("next", nextPath)
+  loginUrl.searchParams.set("error", "La solicitud de acceso no pudo validarse.")
+  return NextResponse.redirect(loginUrl)
 }

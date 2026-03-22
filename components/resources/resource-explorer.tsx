@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { ChevronDown, ChevronRight, Download, ExternalLink, FileText, Folder, FolderOpen, PanelLeftOpen } from "lucide-react"
 import type { ResourceExplorerView, ResourceFolder, ResourceFolderNode, ResourceView } from "@/types/resources"
+import { MediaLightbox } from "@/components/ui/media-lightbox"
 
 function buildTree(folders: ResourceFolder[]) {
   const nodes = folders.map((folder) => ({ ...folder, children: [] as ResourceFolderNode[] }))
@@ -95,6 +97,11 @@ function formatFileSize(fileSize: number | null) {
   return `${size.toFixed(size >= 10 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`
 }
 
+function canPreviewResource(resource: ResourceView) {
+  if (!resource.access_url || !resource.mime_type) return false
+  return resource.mime_type.startsWith("image/") || resource.mime_type.includes("pdf")
+}
+
 function ResourceTreeBranch({
   node,
   currentFolderId,
@@ -142,7 +149,13 @@ function ResourceTreeBranch({
   )
 }
 
-function ResourceDocuments({ resources }: { resources: ResourceView[] }) {
+function ResourceDocuments({
+  resources,
+  onPreview,
+}: {
+  resources: ResourceView[]
+  onPreview: (resource: ResourceView) => void
+}) {
   if (resources.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-border bg-card/60 p-5 text-sm text-muted-foreground">
@@ -179,15 +192,26 @@ function ResourceDocuments({ resources }: { resources: ResourceView[] }) {
               <td className="px-4 py-3">
                 <div className="flex flex-wrap gap-2">
                   {resource.access_url ? (
-                    <Link
-                      href={resource.access_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Ver
-                    </Link>
+                    canPreviewResource(resource) ? (
+                      <button
+                        type="button"
+                        onClick={() => onPreview(resource)}
+                        className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Ver
+                      </button>
+                    ) : (
+                      <Link
+                        href={resource.access_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Ver
+                      </Link>
+                    )
                   ) : null}
                   {resource.access_url ? (
                     <Link
@@ -211,6 +235,7 @@ function ResourceDocuments({ resources }: { resources: ResourceView[] }) {
 }
 
 export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceExplorerView; allFolders: ResourceFolder[] }) {
+  const [previewResource, setPreviewResource] = useState<ResourceView | null>(null)
   const tree = buildTree(allFolders)
   const openFolderIds = buildOpenFolderSet(allFolders, explorer.currentFolder)
   const currentTitle = explorer.currentFolder ? explorer.currentFolder.name : "Raiz"
@@ -353,11 +378,24 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                 </h4>
                 <span className="text-xs text-muted-foreground">{explorer.resources.length}</span>
               </div>
-              <ResourceDocuments resources={explorer.resources} />
+              <ResourceDocuments resources={explorer.resources} onPreview={setPreviewResource} />
             </div>
           </div>
         </div>
       </div>
+
+      {previewResource ? (
+        <MediaLightbox
+          title={previewResource.title}
+          src={previewResource.access_url ?? ""}
+          alt={previewResource.title}
+          kind={previewResource.mime_type?.startsWith("image/") ? "image" : "pdf"}
+          fileName={previewResource.file_name}
+          externalHref={previewResource.access_url}
+          externalLabel="Ver aparte"
+          onClose={() => setPreviewResource(null)}
+        />
+      ) : null}
     </section>
   )
 }

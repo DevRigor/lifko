@@ -72,7 +72,7 @@ export default async function AdminResourcesPage({
                 Biblioteca administrable con explorador de carpetas y documentos.
               </h1>
               <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg">
-                La gestion de carpetas ahora vive en una interfaz tipo explorador. Los documentos se cargan desde tu PC y se guardan en Supabase Storage sin exponer el bucket al publico.
+                Organiza carpetas y documentos desde una interfaz interna pensada para mantener el contenido actualizado.
               </p>
             </div>
 
@@ -94,8 +94,8 @@ export default async function AdminResourcesPage({
 
         {!hasAdminAccess ? (
           <ResourceState
-            title="Acceso autenticado pero sin privilegios admin"
-            description="Tu usuario debe existir en la tabla `admin_users` y la funcion `is_resource_admin()` debe estar actualizada para validar el email del JWT. Ejecuta el fix SQL si acabas de implementar Auth y el panel todavia no te reconoce como admin."
+            title="Acceso no disponible"
+            description="Tu cuenta no tiene permisos para entrar a esta seccion."
           />
         ) : (
           <>
@@ -107,7 +107,7 @@ export default async function AdminResourcesPage({
                   </div>
                   <div>
                     <h2 className="text-xl font-semibold text-foreground">Estado de acceso</h2>
-                    <p className="text-sm text-muted-foreground">Sesion administrativa activa en Supabase Auth.</p>
+                    <p className="text-sm text-muted-foreground">Sesion administrativa activa.</p>
                   </div>
                 </div>
 
@@ -122,7 +122,7 @@ export default async function AdminResourcesPage({
                   <div className="rounded-2xl border border-border/60 bg-background/70 p-4">
                     <Upload className="h-5 w-5 text-primary" />
                     <p className="mt-3 text-sm font-semibold text-foreground">Uploads</p>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">Carga directa desde tu PC al bucket privado.</p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">Carga y organizacion de documentos desde el equipo local.</p>
                   </div>
                   <div className="rounded-2xl border border-border/60 bg-background/70 p-4">
                     <FolderCog className="h-5 w-5 text-primary" />
@@ -140,7 +140,7 @@ export default async function AdminResourcesPage({
               <div className="rounded-3xl border border-border/70 bg-card/95 p-8 shadow-sm shadow-black/5">
                 <h2 className="text-xl font-semibold text-foreground">Estado de datos</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Esta vista ya consume el inventario completo de la biblioteca desde Supabase.
+                  Esta vista refleja el inventario actual de la biblioteca.
                 </p>
 
                 <div className="mt-6 space-y-4 text-sm">
@@ -157,21 +157,21 @@ export default async function AdminResourcesPage({
                 <div className="mt-6">
                   {!library.schemaReady ? (
                     <ResourceState
-                      title="Esquema pendiente"
-                      description="Ejecuta el archivo SQL inicial en Supabase para crear tablas, bucket y politicas antes de avanzar con el panel admin real."
+                      title="Configuracion pendiente"
+                      description="La biblioteca todavia no esta lista para administrarse desde este panel."
                     />
                   ) : null}
 
                   {library.schemaReady && library.errorMessage ? (
                     <ResourceState
                       title="Error de lectura"
-                      description={`Supabase respondio con: ${library.errorMessage}`}
+                      description="No fue posible cargar la informacion de la biblioteca en este momento."
                     />
                   ) : null}
 
                   {library.schemaReady && !library.errorMessage ? (
                     <div className="rounded-2xl border border-border/60 bg-background/80 p-5 text-sm text-muted-foreground">
-                      La conexion con Supabase responde. Ya puedes organizar carpetas y cargar documentos desde el explorador admin.
+                      Ya puedes organizar carpetas y cargar documentos desde el explorador interno.
                     </div>
                   ) : null}
                 </div>
