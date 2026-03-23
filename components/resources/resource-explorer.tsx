@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { ChevronDown, ChevronRight, Download, ExternalLink, FileText, Folder, FolderOpen, PanelLeftOpen } from "lucide-react"
 import type { ResourceExplorerView, ResourceFolder, ResourceFolderNode, ResourceView } from "@/types/resources"
@@ -43,11 +43,64 @@ function buildOpenFolderSet(folders: ResourceFolder[], currentFolder: ResourceFo
   return openIds
 }
 
-function folderHref(folder: ResourceFolder) {
-  return `/recursos?folder=${encodeURIComponent(folder.slug)}`
+function buildExplorerView(allFolders: ResourceFolder[], resources: ResourceView[], activeFolderSlug?: string | null): ResourceExplorerView {
+  const rootFolders = allFolders.filter((folder) => !folder.parent_id)
+
+  if (!activeFolderSlug) {
+    return {
+      currentFolder: null,
+      breadcrumbs: [],
+      childFolders: rootFolders,
+      resources: resources.filter((resource) => !resource.folder_id),
+      rootFolders,
+    }
+  }
+
+  const currentFolder = allFolders.find((folder) => folder.slug === activeFolderSlug) ?? null
+
+  if (!currentFolder) {
+    return {
+      currentFolder: null,
+      breadcrumbs: [],
+      childFolders: rootFolders,
+      resources: resources.filter((resource) => !resource.folder_id),
+      rootFolders,
+    }
+  }
+
+  const foldersById = new Map(allFolders.map((folder) => [folder.id, folder]))
+  const breadcrumbs: ResourceFolder[] = []
+
+  let cursor: ResourceFolder | null = currentFolder
+  while (cursor) {
+    breadcrumbs.unshift(cursor)
+    cursor = cursor.parent_id ? (foldersById.get(cursor.parent_id) ?? null) : null
+  }
+
+  return {
+    currentFolder,
+    breadcrumbs,
+    childFolders: allFolders.filter((folder) => folder.parent_id === currentFolder.id),
+    resources: resources.filter((resource) => resource.folder_id === currentFolder.id),
+    rootFolders,
+  }
 }
 
-function ResourceBreadcrumbs({ breadcrumbs }: { breadcrumbs: ResourceFolder[] }) {
+function updateFolderUrl(folderSlug?: string | null) {
+  const url = folderSlug
+    ? `/recursos?folder=${encodeURIComponent(folderSlug)}`
+    : "/recursos"
+
+  window.history.pushState(null, "", url)
+}
+
+function ResourceBreadcrumbs({
+  breadcrumbs,
+  onNavigate,
+}: {
+  breadcrumbs: ResourceFolder[]
+  onNavigate: (folderSlug?: string | null) => void
+}) {
   const currentFolder = breadcrumbs[breadcrumbs.length - 1] ?? null
 
   return (
@@ -55,10 +108,14 @@ function ResourceBreadcrumbs({ breadcrumbs }: { breadcrumbs: ResourceFolder[] })
       aria-label="Breadcrumb"
       className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground"
     >
-      <Link href="/recursos" scroll={false} className="rounded-full border border-border/70 px-3 py-1 transition-colors hover:bg-secondary/70 hover:text-foreground">
+      <button
+        type="button"
+        onClick={() => onNavigate(null)}
+        className="rounded-full border border-border/70 px-3 py-1 transition-colors hover:bg-secondary/70 hover:text-foreground"
+      >
         Recursos
-      </Link>
-      {breadcrumbs.map((folder, index) => {
+      </button>
+      {breadcrumbs.map((folder) => {
         const isLast = currentFolder?.id === folder.id
 
         return (
@@ -67,13 +124,13 @@ function ResourceBreadcrumbs({ breadcrumbs }: { breadcrumbs: ResourceFolder[] })
             {isLast ? (
               <span className="rounded-full bg-primary/12 px-3 py-1 text-foreground">{folder.name}</span>
             ) : (
-              <Link
-                href={folderHref(folder)}
-                scroll={false}
+              <button
+                type="button"
+                onClick={() => onNavigate(folder.slug)}
                 className="rounded-full border border-border/70 px-3 py-1 transition-colors hover:bg-secondary/70 hover:text-foreground"
               >
                 {folder.name}
-              </Link>
+              </button>
             )}
           </span>
         )
@@ -106,10 +163,12 @@ function ResourceTreeBranch({
   node,
   currentFolderId,
   openFolderIds,
+  onNavigate,
 }: {
   node: ResourceFolderNode
   currentFolderId: string | null
   openFolderIds: Set<string>
+  onNavigate: (folderSlug?: string | null) => void
 }) {
   const isSelected = currentFolderId === node.id
   const hasChildren = node.children.length > 0
@@ -117,9 +176,9 @@ function ResourceTreeBranch({
 
   return (
     <li className="space-y-1">
-      <Link
-        href={folderHref(node)}
-        scroll={false}
+      <button
+        type="button"
+        onClick={() => onNavigate(node.slug)}
         className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
           isSelected ? "bg-primary/12 text-foreground" : "text-foreground hover:bg-secondary/60"
         }`}
@@ -131,7 +190,7 @@ function ResourceTreeBranch({
         )}
         {isExpanded ? <FolderOpen className="h-4 w-4 text-primary" /> : <Folder className="h-4 w-4 text-primary" />}
         <span className="truncate">{node.name}</span>
-      </Link>
+      </button>
 
       {hasChildren && isExpanded ? (
         <ul className="ml-5 space-y-1 border-l border-border/60 pl-3">
@@ -141,6 +200,7 @@ function ResourceTreeBranch({
               node={child}
               currentFolderId={currentFolderId}
               openFolderIds={openFolderIds}
+              onNavigate={onNavigate}
             />
           ))}
         </ul>
@@ -234,14 +294,42 @@ function ResourceDocuments({
   )
 }
 
-export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceExplorerView; allFolders: ResourceFolder[] }) {
+export function ResourceExplorer({
+  allFolders,
+  allResources,
+  initialFolderSlug,
+}: {
+  allFolders: ResourceFolder[]
+  allResources: ResourceView[]
+  initialFolderSlug?: string | null
+}) {
   const [previewResource, setPreviewResource] = useState<ResourceView | null>(null)
+  const [activeFolderSlug, setActiveFolderSlug] = useState(initialFolderSlug ?? null)
+  const explorer = useMemo(
+    () => buildExplorerView(allFolders, allResources, activeFolderSlug),
+    [activeFolderSlug, allFolders, allResources]
+  )
   const tree = buildTree(allFolders)
   const openFolderIds = buildOpenFolderSet(allFolders, explorer.currentFolder)
   const currentTitle = explorer.currentFolder ? explorer.currentFolder.name : "Raiz"
   const currentDescription = explorer.currentFolder
     ? explorer.currentFolder.description ?? "Carpeta seleccionada."
     : "Explora las carpetas disponibles y abre los documentos que quieras revisar o descargar."
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search)
+      setActiveFolderSlug(params.get("folder"))
+    }
+
+    window.addEventListener("popstate", handlePopState)
+    return () => window.removeEventListener("popstate", handlePopState)
+  }, [])
+
+  const navigateToFolder = (folderSlug?: string | null) => {
+    setActiveFolderSlug(folderSlug ?? null)
+    updateFolderUrl(folderSlug ?? null)
+  }
 
   return (
     <section className="overflow-hidden rounded-3xl border border-border/70 bg-card/95 shadow-sm shadow-black/5">
@@ -258,16 +346,16 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
             <Folder className="h-4 w-4" />
             Jerarquia de carpetas
           </div>
-          <Link
-            href="/recursos"
-            scroll={false}
+          <button
+            type="button"
+            onClick={() => navigateToFolder(null)}
             className={`mb-2 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
               explorer.currentFolder === null ? "bg-primary/12 text-foreground" : "text-foreground hover:bg-secondary/60"
             }`}
           >
             <FolderOpen className="h-4 w-4 text-primary" />
             Raiz
-          </Link>
+          </button>
           {tree.length > 0 ? (
             <ul className="space-y-1">
               {tree.map((node) => (
@@ -276,6 +364,7 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                   node={node}
                   currentFolderId={explorer.currentFolder?.id ?? null}
                   openFolderIds={openFolderIds}
+                  onNavigate={navigateToFolder}
                 />
               ))}
             </ul>
@@ -300,16 +389,16 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                   </summary>
 
                   <div className="space-y-2 border-t border-border/70 px-3 py-3">
-                    <Link
-                      href="/recursos"
-                      scroll={false}
+                    <button
+                      type="button"
+                      onClick={() => navigateToFolder(null)}
                       className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                         explorer.currentFolder === null ? "bg-primary/12 text-foreground" : "text-foreground hover:bg-secondary/60"
                       }`}
                     >
                       <FolderOpen className="h-4 w-4 text-primary" />
                       Raiz
-                    </Link>
+                    </button>
                     {tree.length > 0 ? (
                       <ul className="space-y-1">
                         {tree.map((node) => (
@@ -318,6 +407,7 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                             node={node}
                             currentFolderId={explorer.currentFolder?.id ?? null}
                             openFolderIds={openFolderIds}
+                            onNavigate={navigateToFolder}
                           />
                         ))}
                       </ul>
@@ -330,7 +420,7 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                 </details>
               </div>
 
-              <ResourceBreadcrumbs breadcrumbs={explorer.breadcrumbs} />
+              <ResourceBreadcrumbs breadcrumbs={explorer.breadcrumbs} onNavigate={navigateToFolder} />
             </div>
 
             <div>
@@ -349,10 +439,10 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
               {explorer.childFolders.length > 0 ? (
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {explorer.childFolders.map((folder) => (
-                    <Link
+                    <button
                       key={folder.id}
-                      href={folderHref(folder)}
-                      scroll={false}
+                      type="button"
+                      onClick={() => navigateToFolder(folder.slug)}
                       className="rounded-2xl border border-border/60 bg-card/80 p-5 text-left transition-colors hover:bg-secondary/45"
                     >
                       <Folder className="h-6 w-6 text-primary" />
@@ -360,7 +450,7 @@ export function ResourceExplorer({ explorer, allFolders }: { explorer: ResourceE
                       <p className="mt-2 text-sm leading-6 text-muted-foreground">
                         {folder.description ?? "Carpeta sin descripcion aun."}
                       </p>
-                    </Link>
+                    </button>
                   ))}
                 </div>
               ) : (

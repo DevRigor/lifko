@@ -5,7 +5,7 @@ La aplicacion combina una landing principal con modulos adicionales montados en 
 
 ## Entrada principal
 - `app/page.tsx`: compone toda la landing
-- `app/layout.tsx`: metadata, tema y analytics
+- `app/layout.tsx`: metadata, tema, analytics y footer global
 - `app/recursos/page.tsx`: biblioteca publica de carpetas y documentos
 - `app/admin/login/page.tsx`: acceso admin con Google
 - `app/admin/recursos/page.tsx`: panel privado de recursos
@@ -25,7 +25,7 @@ La aplicacion combina una landing principal con modulos adicionales montados en 
 ## Modulo recursos
 - `components/resources/*`: explorador publico, estados y vistas documentales
 - `components/admin/resources/*`: explorador admin, login y formularios
-- `lib/resources.ts`: lectura de biblioteca y armado de vista explorador
+- `lib/resources.ts`: lectura de biblioteca y armado de vista explorador para server/admin
 - `lib/resource-storage.ts`: reglas y helpers de uploads
 - `lib/supabase/*`: clientes y middleware de sesion
 - `types/resources.ts`: tipos del dominio

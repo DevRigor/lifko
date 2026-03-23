@@ -2,7 +2,7 @@ import { FileStack, FolderOpenDot, ShieldCheck } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { ResourceExplorer } from "@/components/resources/resource-explorer"
 import { ResourceState } from "@/components/resources/resource-state"
-import { buildResourceExplorerView, getPublishedResourcesLibrary } from "@/lib/resources"
+import { getPublishedResourcesLibrary } from "@/lib/resources"
 
 export const metadata = {
   title: "Recursos",
@@ -18,7 +18,6 @@ export default async function ResourcesPage({
 }) {
   const params = await searchParams
   const library = await getPublishedResourcesLibrary()
-  const explorer = buildResourceExplorerView(library, params.folder)
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -73,7 +72,11 @@ export default async function ResourcesPage({
         ) : null}
 
         {library.schemaReady && !library.errorMessage ? (
-          <ResourceExplorer explorer={explorer} allFolders={library.folders} />
+          <ResourceExplorer
+            allFolders={library.folders}
+            allResources={library.resources}
+            initialFolderSlug={params.folder}
+          />
         ) : null}
       </section>
     </main>

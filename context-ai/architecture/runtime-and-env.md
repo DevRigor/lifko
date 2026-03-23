@@ -24,4 +24,5 @@ El build ya no depende de Google Fonts remotas. El sitio usa fuentes del sistema
 
 ## Recursos
 - `/recursos` usa render dinamico y lectura sin cache persistente para reflejar cambios reales de Supabase.
+- la biblioteca publica se carga una vez al entrar a `/recursos`; despues la carpeta activa cambia en cliente sin nueva consulta por cada click.
 - si se borra contenido solo en Storage, la UI puede seguir mostrando metadata hasta que se elimine en tablas.

@@ -25,6 +25,9 @@ Ofrecer una biblioteca navegable de carpetas y documentos desde `/recursos`, ges
 - muestra solo documentos publicados
 - permite navegar entre carpetas, abrir archivos y descargarlos
 - no expone acciones administrativas
+- hace una carga inicial de biblioteca desde servidor
+- resuelve el cambio de carpeta en cliente para evitar roundtrips a Supabase en cada click
+- mantiene la URL `?folder=` sincronizada para soportar compartir enlaces y usar back/forward
 
 ### Panel admin
 - usa un explorador tipo sistema de archivos
@@ -71,6 +74,7 @@ Ofrecer una biblioteca navegable de carpetas y documentos desde `/recursos`, ges
 - borrar archivos en Storage no elimina automaticamente su metadata en Postgres
 - para que un recurso desaparezca de la UI, debe eliminarse o despublicarse en tabla
 - la vista publica se sirve sin cache persistente para reflejar cambios reales de Supabase
+- la navegacion interna entre carpetas no debe volver a pedir toda la pagina; se filtra sobre la biblioteca ya cargada
 
 ## Seguridad
 - login con Google configurado en Supabase Auth
@@ -90,6 +94,7 @@ Ofrecer una biblioteca navegable de carpetas y documentos desde `/recursos`, ges
 - arbol de carpetas persistente en la izquierda
 - contenido de la carpeta seleccionada en el panel derecho
 - acciones visibles para el usuario: `Ver` y `Descargar`
+- breadcrumbs, arbol lateral y tarjetas de subcarpetas actualizan la carpeta activa en cliente
 
 ## UX admin
 - boton fijo: `Nueva carpeta raiz`
@@ -124,6 +129,7 @@ Ofrecer una biblioteca navegable de carpetas y documentos desde `/recursos`, ges
 - si se borra solo Storage y no las tablas, quedaran registros huerfanos
 - si se cambia de proyecto Supabase sin actualizar env vars, la app apuntara a otra base
 - si las policies se relajan demasiado, se puede exponer contenido privado
+- si la biblioteca crece mucho, la carga inicial puede volverse pesada porque trae toda la estructura publicada y signed URLs
 
 ## Siguiente mejora recomendada
 - eliminar recursos desde admin borrando tanto metadata como archivo en Storage
