@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
+import { Footer } from '@/components/footer'
 import { ThemeProvider } from '@/components/theme-provider'
 import { assetUrl } from '@/lib/assets'
 import './globals.css'
@@ -97,6 +98,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Footer />
         </ThemeProvider>
         <Analytics />
       </body>

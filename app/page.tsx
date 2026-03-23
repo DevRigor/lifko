@@ -6,7 +6,6 @@ import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
 import { ServicesSection } from "@/components/services-section"
 import { OnlineAdvisorySection } from "@/components/online-advisory-section"
-import { Footer } from "@/components/footer"
 import { assetUrl } from "@/lib/assets"
 
 const FieldAdvisorySection = dynamic(
@@ -73,7 +72,6 @@ export default async function HomePage({
       <OnlineAdvisorySection />
       <FieldAdvisorySection />
       <ContactSection />
-      <Footer />
     </main>
   )
 }

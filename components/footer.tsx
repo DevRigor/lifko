@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { SpiralLogo } from "@/components/spiral-logo"
 import { ScrollLink } from "@/components/scroll-link"
 
@@ -13,26 +16,38 @@ const sectionLinks = [
 const routeLinks = [{ href: "/recursos", label: "Recursos" }]
 
 const services = [
-  "Informes tecnicos",
-  "Gestion de proyectos",
-  "Cartografia hidro-geo-sociologica",
-  "Monitoreo biofisicoquimico",
-  "Planes de Mitigacion",
-  "Capacitaciones y educacion",
+  { label: "Informes tecnicos", href: "#visitas-tecnicas" as const },
+  { label: "Gestion de proyectos", href: "#visitas-tecnicas" as const },
+  { label: "Cartografia hidro-geo-sociologica", href: "#visitas-tecnicas" as const },
+  { label: "Monitoreo biofisicoquimico", href: "#visitas-tecnicas" as const },
+  { label: "Planes de Mitigacion", href: "#visitas-tecnicas" as const },
+  { label: "Capacitaciones y educacion", href: "#visitas-tecnicas" as const },
 ]
 
 export function Footer() {
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+
   return (
     <footer className="bg-foreground text-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           <div className="lg:col-span-1">
-            <ScrollLink href="#inicio" className="flex items-center gap-2 mb-4">
-              <SpiralLogo className="w-10 h-10" />
-              <span className="font-serif text-xl font-semibold tracking-tight">
-                LIFKO SPA
-              </span>
-            </ScrollLink>
+            {isHome ? (
+              <ScrollLink href="#inicio" className="flex items-center gap-2 mb-4">
+                <SpiralLogo className="w-10 h-10" />
+                <span className="font-serif text-xl font-semibold tracking-tight">
+                  LIFKO SPA
+                </span>
+              </ScrollLink>
+            ) : (
+              <Link href="/#inicio" className="flex items-center gap-2 mb-4">
+                <SpiralLogo className="w-10 h-10" />
+                <span className="font-serif text-xl font-semibold tracking-tight">
+                  LIFKO SPA
+                </span>
+              </Link>
+            )}
             <p className="text-background/85 text-sm leading-relaxed">
               SERVICIOS PROFESIONALES DE INGENIERIA Y ACTIVIDADES CONEXAS DE
               CONSULTORIA TECNICA 711003-SSI.
@@ -44,12 +59,21 @@ export function Footer() {
             <ul className="space-y-2">
               {sectionLinks.map((link) => (
                 <li key={link.href}>
-                  <ScrollLink
-                    href={link.href}
-                    className="text-background/85 hover:text-background text-sm transition-colors"
-                  >
-                    {link.label}
-                  </ScrollLink>
+                  {isHome ? (
+                    <ScrollLink
+                      href={link.href}
+                      className="text-background/85 hover:text-background text-sm transition-colors"
+                    >
+                      {link.label}
+                    </ScrollLink>
+                  ) : (
+                    <Link
+                      href={`/${link.href}`}
+                      className="text-background/85 hover:text-background text-sm transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
               {routeLinks.map((link) => (
@@ -69,8 +93,22 @@ export function Footer() {
             <h4 className="font-semibold text-background mb-4">Servicios</h4>
             <ul className="space-y-2">
               {services.map((service) => (
-                <li key={service}>
-                  <span className="text-background/85 text-sm">{service}</span>
+                <li key={service.label}>
+                  {isHome ? (
+                    <ScrollLink
+                      href={service.href}
+                      className="text-background/85 hover:text-background text-sm transition-colors"
+                    >
+                      {service.label}
+                    </ScrollLink>
+                  ) : (
+                    <Link
+                      href={`/${service.href}`}
+                      className="text-background/85 hover:text-background text-sm transition-colors"
+                    >
+                      {service.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
