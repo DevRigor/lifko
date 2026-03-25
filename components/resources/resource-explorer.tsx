@@ -225,31 +225,31 @@ function ResourceDocuments({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border/60 bg-card/80">
+    <div className="overflow-hidden rounded-2xl bg-card/80 shadow-[0_2px_16px_rgba(21,28,34,0.06)]">
       <table className="w-full text-left text-sm">
-        <thead className="bg-secondary/60 text-secondary-foreground">
+        <thead className="bg-secondary/80 text-secondary-foreground">
           <tr>
-            <th className="px-4 py-3 font-medium">Titulo</th>
-            <th className="px-4 py-3 font-medium">Archivo</th>
-            <th className="px-4 py-3 font-medium">Acciones</th>
+            <th className="px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Titulo</th>
+            <th className="px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Archivo</th>
+            <th className="px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {resources.map((resource) => (
-            <tr key={resource.id} className="border-t border-border/60">
-              <td className="px-4 py-3">
-                <p className="font-medium text-foreground">{resource.title}</p>
+            <tr key={resource.id} className="border-t border-border/40 hover:bg-secondary/30 transition-colors">
+              <td className="px-5 py-4">
+                <p className="font-semibold text-foreground">{resource.title}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {resource.summary ?? "Documento disponible en la biblioteca de LIFKO."}
                 </p>
               </td>
-              <td className="px-4 py-3 text-muted-foreground">
+              <td className="px-5 py-4 text-muted-foreground">
                 <div>{resource.file_name ?? "Sin archivo"}</div>
                 <div className="mt-1 text-xs">
                   {formatFileSize(resource.file_size) ?? "Tamano no disponible"}
                 </div>
               </td>
-              <td className="px-4 py-3">
+              <td className="px-5 py-4">
                 <div className="flex flex-wrap gap-2">
                   {resource.access_url ? (
                     canPreviewResource(resource) ? (
@@ -332,7 +332,7 @@ export function ResourceExplorer({
   }
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-border/70 bg-card/95 shadow-sm shadow-black/5">
+    <section className="overflow-hidden rounded-3xl bg-card/95 shadow-[0_8px_40px_rgba(21,28,34,0.08)]">
       <div className="border-b border-border/70 px-6 py-4">
         <h2 className="text-xl font-semibold text-foreground">Explorador de recursos</h2>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -443,7 +443,7 @@ export function ResourceExplorer({
                       key={folder.id}
                       type="button"
                       onClick={() => navigateToFolder(folder.slug)}
-                      className="rounded-2xl border border-border/60 bg-card/80 p-5 text-left transition-colors hover:bg-secondary/45"
+                      className="rounded-2xl bg-card/80 p-5 text-left shadow-[0_2px_12px_rgba(21,28,34,0.05)] hover:shadow-[0_6px_24px_rgba(21,28,34,0.09)] hover:-translate-y-0.5 transition-all duration-300"
                     >
                       <Folder className="h-6 w-6 text-primary" />
                       <p className="mt-4 text-sm font-semibold text-foreground">{folder.name}</p>

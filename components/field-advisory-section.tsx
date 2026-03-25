@@ -181,8 +181,8 @@ export function FieldAdvisorySection() {
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           <div className="order-2 lg:order-1">
-            <div className="bg-card border border-border rounded-lg overflow-hidden">
-              <div className="p-4 border-b border-border bg-muted/50">
+            <div className="bg-card rounded-xl shadow-[0_4px_24px_rgba(21,28,34,0.07)] overflow-hidden">
+              <div className="p-4 border-b border-border/60 bg-muted/30">
                 <div className="flex items-center gap-2 text-foreground">
                   <MapPin className="w-5 h-5 text-primary" />
                   <span className="font-medium">Seleccione la ubicacion en el mapa</span>
@@ -229,10 +229,13 @@ export function FieldAdvisorySection() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 lg:p-8">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-6">
-                Formulario de Solicitud
-              </h3>
+            <form onSubmit={handleSubmit} className="bg-card rounded-xl p-6 lg:p-8 shadow-[0_4px_24px_rgba(21,28,34,0.07)]">
+              <div className="mb-6">
+                <p className="text-xs uppercase tracking-[0.25em] text-primary font-semibold mb-1">Contacto</p>
+                <h3 className="font-serif text-2xl font-semibold text-foreground">
+                  Formulario de Solicitud
+                </h3>
+              </div>
 
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <div className="space-y-2">

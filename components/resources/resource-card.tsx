@@ -29,10 +29,10 @@ export function ResourceCard({ resource }: { resource: ResourceView }) {
   const sizeLabel = formatFileSize(resource.file_size)
 
   return (
-    <article className="flex h-full flex-col rounded-3xl border border-border/70 bg-card/95 p-6 shadow-sm shadow-black/5">
+    <article className="flex h-full flex-col rounded-3xl bg-card/95 p-6 shadow-[0_4px_20px_rgba(21,28,34,0.06)] hover:shadow-[0_12px_36px_rgba(21,28,34,0.10)] hover:-translate-y-0.5 transition-all duration-300 border border-transparent hover:border-accent/20">
       <div className="mb-5 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="rounded-2xl bg-secondary p-3 text-secondary-foreground">
+          <div className="rounded-2xl bg-primary/10 p-3 text-primary">
             <Icon className="h-5 w-5" />
           </div>
           <div>

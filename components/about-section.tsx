@@ -12,7 +12,7 @@ const odsLogos = [
 
 export function AboutSection() {
   return (
-    <section id="nosotros" className="py-20 lg:py-24 bg-background border-y border-border/60">
+    <section id="nosotros" className="py-20 lg:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <p className="text-sm uppercase tracking-[0.2em] text-primary font-medium mb-4">
@@ -31,7 +31,7 @@ export function AboutSection() {
           {odsLogos.map((logo) => (
             <div
               key={logo.src}
-              className="bg-card border border-border rounded-2xl p-4 flex items-center justify-center shadow-sm"
+              className="bg-card rounded-2xl p-4 flex items-center justify-center shadow-[0_4px_20px_rgba(21,28,34,0.06)] hover:shadow-[0_8px_32px_rgba(21,28,34,0.10)] hover:-translate-y-1 transition-all duration-300"
             >
               <div className="relative h-24 w-full">
                 <Image

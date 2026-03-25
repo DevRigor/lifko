@@ -17,20 +17,21 @@ export function HeroSection() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 text-center">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm sm:text-base uppercase tracking-[0.2em] text-white/90 mb-6 font-medium">
-            Analisis de Calidad de Agua
+          <p className="text-xs sm:text-sm uppercase tracking-[0.3em] text-white/80 mb-8 font-semibold">
+            Analisis de Calidad de Agua · Chile
           </p>
 
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight mb-8 text-balance">
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white leading-[1.05] mb-8">
             Compromiso con el medio ambiente y su proyecto
           </h1>
 
-          <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto mb-12 leading-relaxed text-pretty">
+          <p className="text-lg sm:text-xl text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed">
             En LIFKO SpA buscamos mejorar la calidad de vida de los ecosistemas dulceacuicolas.
             Asesoramos a empresas y organizaciones que necesitan conocer el estado de la calidad
             del agua para su uso o consumo.
@@ -40,7 +41,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base font-medium"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-base font-semibold shadow-[0_8px_32px_rgba(0,94,162,0.35)] hover:shadow-[0_12px_40px_rgba(0,94,162,0.45)] transition-all duration-300"
             >
               <ScrollLink href="#visitas-tecnicas" className="flex items-center gap-2">
                 Solicitar Asesoria
@@ -51,7 +52,7 @@ export function HeroSection() {
               asChild
               variant="outline"
               size="lg"
-              className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white px-8 py-6 text-base font-medium backdrop-blur-sm"
+              className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white px-10 py-6 text-base font-semibold backdrop-blur-sm"
             >
               <ScrollLink href="#servicios" className="flex items-center gap-2">
                 <Droplets className="w-4 h-4" />
@@ -61,9 +62,10 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-white/70 rounded-full" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold">Descubrir</span>
+          <div className="w-5 h-8 border border-white/40 rounded-full flex items-start justify-center pt-1.5">
+            <div className="w-0.5 h-2 bg-white/60 rounded-full animate-bounce" />
           </div>
         </div>
       </div>

@@ -63,9 +63,9 @@ export function OnlineAdvisorySection() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-secondary border border-border rounded-lg p-6 hover:shadow-md transition-shadow"
+                className="bg-secondary rounded-xl p-6 shadow-[0_2px_12px_rgba(21,28,34,0.05)] hover:shadow-[0_8px_28px_rgba(21,28,34,0.09)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">

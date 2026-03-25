@@ -1,10 +1,24 @@
 import type { Metadata } from 'next'
 import type { Viewport } from 'next'
+import { Noto_Serif, Manrope } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Footer } from '@/components/footer'
 import { ThemeProvider } from '@/components/theme-provider'
 import { assetUrl } from '@/lib/assets'
 import './globals.css'
+
+const notoSerif = Noto_Serif({
+  subsets: ['latin'],
+  variable: '--font-noto-serif',
+  display: 'swap',
+  weight: ['400', '600', '700'],
+})
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+})
 
 const siteUrl = 'https://www.lifkospa.cl'
 
@@ -90,7 +104,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <body className={`${notoSerif.variable} ${manrope.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

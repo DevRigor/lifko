@@ -37,10 +37,10 @@ export function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
-          : "bg-transparent"
+          ? "bg-background/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(21,28,34,0.06)] border-b border-border/60"
+          : "bg-gradient-to-b from-black/30 to-transparent"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -98,7 +98,7 @@ export function Navigation() {
         {isOpen && (
           <div
             id="mobile-navigation"
-            className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg"
+            className="lg:hidden absolute top-20 left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border/60 shadow-[0_8px_32px_rgba(21,28,34,0.08)]"
           >
             <div className="flex flex-col py-4 px-4 gap-2">
               {sectionLinks.map((link) => (

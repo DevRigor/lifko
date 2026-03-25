@@ -29,7 +29,7 @@ export function Footer() {
   const isHome = pathname === "/"
 
   return (
-    <footer className="bg-foreground text-background">
+    <footer className="bg-foreground text-background border-t border-background/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           <div className="lg:col-span-1">
