@@ -191,3 +191,28 @@ export async function createResourceAction(formData: FormData) {
   refreshAdminPaths()
   ok("Recurso creado correctamente.")
 }
+
+export async function toggleResourcePublishedAction(formData: FormData) {
+  const resourceId = String(formData.get("resource_id") ?? "").trim()
+  const isPublished = formData.get("is_published") === "on"
+
+  if (!resourceId) {
+    fail("Falta identificar el recurso.")
+  }
+
+  const supabase = await requireAdmin()
+  const { error } = await supabase
+    .from("resources")
+    .update({
+      is_published: isPublished,
+      published_at: isPublished ? new Date().toISOString() : null,
+    })
+    .eq("id", resourceId)
+
+  if (error) {
+    fail("No se pudo actualizar el estado del recurso.")
+  }
+
+  refreshAdminPaths()
+  ok(isPublished ? "Recurso publicado correctamente." : "Recurso ocultado correctamente.")
+}

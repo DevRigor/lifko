@@ -17,6 +17,7 @@ import {
   createResourceAction,
   deleteFolderAction,
   renameFolderAction,
+  toggleResourcePublishedAction,
 } from "@/app/admin/recursos/actions"
 import {
   buildResourceStoragePath,
@@ -37,6 +38,12 @@ type FolderTreeNode = ResourceFolder & {
 
 type ContextTarget = {
   folder: ResourceFolder | null
+  x: number
+  y: number
+}
+
+type ResourceContextTarget = {
+  resource: ResourceView
   x: number
   y: number
 }
@@ -336,6 +343,7 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
   const tree = useMemo(() => buildTree(folders), [folders])
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(folders[0]?.id ?? null)
   const [contextTarget, setContextTarget] = useState<ContextTarget | null>(null)
+  const [resourceContextTarget, setResourceContextTarget] = useState<ResourceContextTarget | null>(null)
   const [modalParent, setModalParent] = useState<ResourceFolder | null | "root" | null>(null)
   const [uploadTarget, setUploadTarget] = useState<ResourceFolder | null>(null)
   const [renameTarget, setRenameTarget] = useState<ResourceFolder | null>(null)
@@ -353,6 +361,16 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
 
   function closeContextMenu() {
     setContextTarget(null)
+  }
+
+  function openResourceContextMenu(event: React.MouseEvent<HTMLElement>, resource: ResourceView) {
+    event.preventDefault()
+    event.stopPropagation()
+    setResourceContextTarget({ resource, x: event.clientX, y: event.clientY })
+  }
+
+  function closeResourceContextMenu() {
+    setResourceContextTarget(null)
   }
 
   function openCreateModal(parent: ResourceFolder | null) {
@@ -476,7 +494,7 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
                       </thead>
                       <tbody>
                         {(selectedFolder ? folderResources : rootResources).map((resource) => (
-                          <tr key={resource.id} className="border-t border-border/60">
+                          <tr key={resource.id} className="border-t border-border/60 hover:bg-secondary/30 cursor-context-menu transition-colors" onContextMenu={(event) => openResourceContextMenu(event, resource)}>
                             <td className="px-4 py-3 text-foreground">{resource.title}</td>
                             <td className="px-4 py-3 text-muted-foreground">{resource.file_name ?? "Sin archivo"}</td>
                             <td className="px-4 py-3 text-muted-foreground">{resource.is_published ? "Visible" : "Borrador"}</td>
@@ -508,6 +526,31 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
                 <button type="button" onClick={() => { setDeleteTarget(contextTarget.folder); closeContextMenu() }} className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-destructive transition-colors hover:bg-destructive/10"><Trash2 className="h-4 w-4" />Eliminar carpeta</button>
               </>
             ) : null}
+          </div>
+        </>
+      ) : null}
+
+      {resourceContextTarget ? (
+        <>
+          <button type="button" className="fixed inset-0 z-40 cursor-default" onClick={closeResourceContextMenu} aria-label="Cerrar menu contextual de recurso" />
+          <div className="fixed z-50 min-w-64 rounded-2xl border border-border/70 bg-background/95 p-2 shadow-2xl shadow-black/15 backdrop-blur" style={{ top: resourceContextTarget.y, left: resourceContextTarget.x }}>
+            <form action={toggleResourcePublishedAction}>
+              <input type="hidden" name="resource_id" value={resourceContextTarget.resource.id} />
+              <input type="hidden" name="is_published" value={resourceContextTarget.resource.is_published ? "off" : "on"} />
+              <button type="submit" className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary">
+                {resourceContextTarget.resource.is_published ? (
+                  <>
+                    <div className="h-4 w-4 rounded-md border border-primary bg-primary" />
+                    Ocultar al publico
+                  </>
+                ) : (
+                  <>
+                    <div className="h-4 w-4 rounded-md border border-border bg-background" />
+                    Mostrar al publico
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </>
       ) : null}
