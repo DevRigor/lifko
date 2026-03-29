@@ -374,6 +374,7 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
 
   function closeResourceContextMenu() {
     setResourceContextTarget(null)
+    setUpdatingResourceId(null)
   }
 
   function openCreateModal(parent: ResourceFolder | null) {
@@ -543,7 +544,10 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
               <button
                 type="submit"
                 disabled={updatingResourceId === resourceContextTarget.resource.id}
-                onClick={() => setUpdatingResourceId(resourceContextTarget.resource.id)}
+                onClick={() => {
+                  setUpdatingResourceId(resourceContextTarget.resource.id)
+                  setTimeout(() => setUpdatingResourceId(null), 3000)
+                }}
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60 disabled:cursor-wait"
               >
                 {updatingResourceId === resourceContextTarget.resource.id ? (
