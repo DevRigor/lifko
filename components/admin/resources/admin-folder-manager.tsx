@@ -8,6 +8,7 @@ import {
   Folder,
   FolderOpen,
   FolderPlus,
+  Loader,
   Trash2,
   Upload,
   X,
@@ -341,9 +342,11 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
 
 export function AdminFolderManager({ folders, resources }: { folders: ResourceFolder[]; resources: ResourceView[] }) {
   const tree = useMemo(() => buildTree(folders), [folders])
+  const [isPending, startTransition] = useTransition()
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(folders[0]?.id ?? null)
   const [contextTarget, setContextTarget] = useState<ContextTarget | null>(null)
   const [resourceContextTarget, setResourceContextTarget] = useState<ResourceContextTarget | null>(null)
+  const [updatingResourceId, setUpdatingResourceId] = useState<string | null>(null)
   const [modalParent, setModalParent] = useState<ResourceFolder | null | "root" | null>(null)
   const [uploadTarget, setUploadTarget] = useState<ResourceFolder | null>(null)
   const [renameTarget, setRenameTarget] = useState<ResourceFolder | null>(null)
@@ -534,11 +537,21 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
         <>
           <button type="button" className="fixed inset-0 z-40 cursor-default" onClick={closeResourceContextMenu} aria-label="Cerrar menu contextual de recurso" />
           <div className="fixed z-50 min-w-64 rounded-2xl border border-border/70 bg-background/95 p-2 shadow-2xl shadow-black/15 backdrop-blur" style={{ top: resourceContextTarget.y, left: resourceContextTarget.x }}>
-            <form action={toggleResourcePublishedAction}>
+            <form action={(formData) => {
+              setUpdatingResourceId(resourceContextTarget.resource.id)
+              startTransition(async () => {
+                await toggleResourcePublishedAction(formData)
+              })
+            }}>
               <input type="hidden" name="resource_id" value={resourceContextTarget.resource.id} />
               <input type="hidden" name="is_published" value={resourceContextTarget.resource.is_published ? "off" : "on"} />
-              <button type="submit" className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary">
-                {resourceContextTarget.resource.is_published ? (
+              <button type="submit" disabled={updatingResourceId === resourceContextTarget.resource.id} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60 disabled:cursor-wait">
+                {updatingResourceId === resourceContextTarget.resource.id ? (
+                  <>
+                    <Loader className="h-4 w-4 animate-spin" />
+                    Actualizando...
+                  </>
+                ) : resourceContextTarget.resource.is_published ? (
                   <>
                     <div className="h-4 w-4 rounded-md border border-primary bg-primary" />
                     Ocultar al publico
