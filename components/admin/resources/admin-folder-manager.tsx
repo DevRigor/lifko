@@ -342,11 +342,10 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
 
 export function AdminFolderManager({ folders, resources }: { folders: ResourceFolder[]; resources: ResourceView[] }) {
   const tree = useMemo(() => buildTree(folders), [folders])
-  const [isPending, startTransition] = useTransition()
+  const [isTogglingPublished, startToggleTransition] = useTransition()
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(folders[0]?.id ?? null)
   const [contextTarget, setContextTarget] = useState<ContextTarget | null>(null)
   const [resourceContextTarget, setResourceContextTarget] = useState<ResourceContextTarget | null>(null)
-  const [updatingResourceId, setUpdatingResourceId] = useState<string | null>(null)
   const [modalParent, setModalParent] = useState<ResourceFolder | null | "root" | null>(null)
   const [uploadTarget, setUploadTarget] = useState<ResourceFolder | null>(null)
   const [renameTarget, setRenameTarget] = useState<ResourceFolder | null>(null)
@@ -374,7 +373,6 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
 
   function closeResourceContextMenu() {
     setResourceContextTarget(null)
-    setUpdatingResourceId(null)
   }
 
   function openCreateModal(parent: ResourceFolder | null) {
@@ -538,36 +536,34 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
         <>
           <button type="button" className="fixed inset-0 z-40 cursor-default" onClick={closeResourceContextMenu} aria-label="Cerrar menu contextual de recurso" />
           <div className="fixed z-50 min-w-64 rounded-2xl border border-border/70 bg-background/95 p-2 shadow-2xl shadow-black/15 backdrop-blur" style={{ top: resourceContextTarget.y, left: resourceContextTarget.x }}>
-            <form action={toggleResourcePublishedAction}>
-              <input type="hidden" name="resource_id" value={resourceContextTarget.resource.id} />
-              <input type="hidden" name="is_published" value={resourceContextTarget.resource.is_published ? "off" : "on"} />
-              <button
-                type="submit"
-                disabled={updatingResourceId === resourceContextTarget.resource.id}
-                onClick={() => {
-                  setUpdatingResourceId(resourceContextTarget.resource.id)
-                  setTimeout(() => setUpdatingResourceId(null), 3000)
-                }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60 disabled:cursor-wait"
-              >
-                {updatingResourceId === resourceContextTarget.resource.id ? (
-                  <>
-                    <Loader className="h-4 w-4 animate-spin" />
-                    Actualizando...
-                  </>
-                ) : resourceContextTarget.resource.is_published ? (
-                  <>
-                    <div className="h-4 w-4 rounded-md border border-primary bg-primary" />
-                    Ocultar al publico
-                  </>
-                ) : (
-                  <>
-                    <div className="h-4 w-4 rounded-md border border-border bg-background" />
-                    Mostrar al publico
-                  </>
-                )}
-              </button>
-            </form>
+            <button
+              type="button"
+              disabled={isTogglingPublished}
+              onClick={() => {
+                const formData = new FormData()
+                formData.set("resource_id", resourceContextTarget.resource.id)
+                formData.set("is_published", resourceContextTarget.resource.is_published ? "off" : "on")
+                startToggleTransition(() => toggleResourcePublishedAction(formData))
+              }}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+            >
+              {isTogglingPublished ? (
+                <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  Actualizando...
+                </>
+              ) : resourceContextTarget.resource.is_published ? (
+                <>
+                  <div className="h-4 w-4 rounded-md border border-primary bg-primary" />
+                  Ocultar al publico
+                </>
+              ) : (
+                <>
+                  <div className="h-4 w-4 rounded-md border border-border bg-background" />
+                  Mostrar al publico
+                </>
+              )}
+            </button>
           </div>
         </>
       ) : null}
