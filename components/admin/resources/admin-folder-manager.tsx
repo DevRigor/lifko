@@ -537,15 +537,15 @@ export function AdminFolderManager({ folders, resources }: { folders: ResourceFo
         <>
           <button type="button" className="fixed inset-0 z-40 cursor-default" onClick={closeResourceContextMenu} aria-label="Cerrar menu contextual de recurso" />
           <div className="fixed z-50 min-w-64 rounded-2xl border border-border/70 bg-background/95 p-2 shadow-2xl shadow-black/15 backdrop-blur" style={{ top: resourceContextTarget.y, left: resourceContextTarget.x }}>
-            <form action={(formData) => {
-              setUpdatingResourceId(resourceContextTarget.resource.id)
-              startTransition(async () => {
-                await toggleResourcePublishedAction(formData)
-              })
-            }}>
+            <form action={toggleResourcePublishedAction}>
               <input type="hidden" name="resource_id" value={resourceContextTarget.resource.id} />
               <input type="hidden" name="is_published" value={resourceContextTarget.resource.is_published ? "off" : "on"} />
-              <button type="submit" disabled={updatingResourceId === resourceContextTarget.resource.id} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60 disabled:cursor-wait">
+              <button
+                type="submit"
+                disabled={updatingResourceId === resourceContextTarget.resource.id}
+                onClick={() => setUpdatingResourceId(resourceContextTarget.resource.id)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-secondary disabled:opacity-60 disabled:cursor-wait"
+              >
                 {updatingResourceId === resourceContextTarget.resource.id ? (
                   <>
                     <Loader className="h-4 w-4 animate-spin" />
