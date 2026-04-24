@@ -42,16 +42,11 @@ El usuario completa un formulario, selecciona coordenadas en el mapa y la API en
 La landing incluye una seccion de perfil profesional con fotografia editorial, datos de contacto directos, licencia clase B y un carrusel de certificados e investigaciones.
 
 ### Biblioteca de recursos
-Seccion publica (`/recursos`) donde los visitantes pueden explorar carpetas tematicas y descargar documentos publicados por LIFKO (PDFs, imagenes, etc.).
+Seccion publica donde los visitantes pueden explorar carpetas tematicas y descargar documentos publicados por LIFKO (PDFs, imagenes, etc.).
 
-- **Panel admin** (`/admin/recursos`): interfaz protegida para gestionar la biblioteca. Permite crear carpetas, subir archivos, renombrar y eliminar carpetas vacias.
+- **Panel admin** : interfaz protegida para gestionar la biblioteca. Permite crear carpetas, subir archivos, renombrar y eliminar carpetas vacias.
 - **Publicacion**: al subir un archivo el admin decide si queda visible al publico o en borrador. Tambien puede cambiar el estado de publicacion haciendo clic derecho sobre cualquier archivo en la tabla de documentos.
 - **Almacenamiento**: los archivos se guardan en Supabase Storage y se sirven con URLs firmadas temporales.
 - **Estructura**: carpetas anidadas con explorador tipo sistema de archivos en el admin y navegacion por carpetas en la vista publica.
 
-## Consideraciones actuales
-- El sitio usa una sola pagina con secciones navegables por scroll interno.
-- La navegacion interna usa offset para respetar la cabecera fija.
-- La marca visual usa una paleta agua/bosque y `public/Logo.svg` como identidad principal.
-- El correo depende de variables locales como `RESEND_API_KEY`, `CONTACT_EMAIL` y `RESEND_FROM_EMAIL`.
-- Si se quiere servir assets desde un CDN externo, definir `NEXT_PUBLIC_CDN_BASE_URL` con la base donde viven las imagenes y el logo.
+
