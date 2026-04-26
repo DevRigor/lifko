@@ -289,6 +289,7 @@ function UploadModal({ folders, targetFolder, onClose }: { folders: ResourceFold
       return
     }
 
+    formData.delete("file")
     formData.set("folder_id", selectedFolderId)
     formData.set("file_path", storagePath)
     formData.set("file_name", file.name)
